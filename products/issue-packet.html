@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Automated Issue Reproduction Packet</title>
+    <style>
+      :root {
+        --bg: #f5f1e8;
+        --card: #fffdf8;
+        --ink: #201912;
+        --muted: #675e53;
+        --line: #d8cfbf;
+        --accent: #0b6e4f;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        background: linear-gradient(180deg, #fffdf8 0%, var(--bg) 100%);
+        color: var(--ink);
+      }
+      main {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 32px 20px 64px;
+      }
+      .panel {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 20px;
+        padding: 24px;
+        box-shadow: 0 14px 32px rgba(32, 25, 18, 0.07);
+      }
+      label, button, input, textarea {
+        font: 600 14px/1.4 Arial, Helvetica, sans-serif;
+      }
+      input, textarea {
+        width: 100%;
+        padding: 12px 14px;
+        margin-top: 8px;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        font-weight: 400;
+      }
+      textarea { min-height: 180px; resize: vertical; }
+      .stack { display: grid; gap: 20px; }
+      .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+      button {
+        margin-top: 16px;
+        padding: 12px 16px;
+        border: 0;
+        border-radius: 999px;
+        background: var(--accent);
+        color: white;
+        cursor: pointer;
+      }
+      .ghost {
+        background: transparent;
+        color: var(--accent);
+        border: 1px solid var(--line);
+      }
+      pre {
+        white-space: pre-wrap;
+        background: #faf7f0;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 18px;
+        line-height: 1.5;
+      }
+      .muted { color: var(--muted); }
+    </style>
+  </head>
+  <body>
+    <main class="stack">
+      <section class="panel">
+        <h1>Automated Issue Reproduction Packet</h1>
+        <p class="muted">
+          Paste an issue title and body to generate a standardized triage packet.
+          This product does not perform manual debugging or repo-specific engineering.
+        </p>
+        <label>
+          Issue title
+          <input id="issueTitle" type="text" placeholder="Button click fails on mobile checkout" />
+        </label>
+        <label>
+          Optional repository URL
+          <input id="repoUrl" type="url" placeholder="https://github.com/owner/repo" />
+        </label>
+        <label>
+          Issue body
+          <textarea id="issueBody" placeholder="Paste the issue description here"></textarea>
+        </label>
+        <div class="actions">
+          <button id="generateBtn">Generate packet</button>
+          <button id="downloadBtn" class="ghost" disabled>Download markdown</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Generated packet</h2>
+        <pre id="output">No packet generated yet.</pre>
+      </section>
+    </main>
+    <script src="/products/issue-packet.js"></script>
+  </body>
+</html>
