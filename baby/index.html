@@ -64,7 +64,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Ro
 .fbar{background:#2a2a40;border-radius:12px;height:10px;overflow:hidden;margin-bottom:8px}
 .ffill{background:linear-gradient(90deg,var(--accent),var(--accent2));height:100%;border-radius:12px;transition:width 0.6s ease}
 .fstats{display:flex;justify-content:space-between;font-size:12px;color:var(--text2)}
-.fe{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #2a2a40;font-size:12px}
+.fe{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #2a2a40;font-size:12px}
+.fe .fe-del{color:var(--accent);font-size:11px;font-weight:600;cursor:pointer;padding:4px 10px;border-radius:8px;background:rgba(255,77,109,0.1);border:none;margin-left:8px}
+.fe .fe-del:active{background:rgba(255,77,109,0.25)}
 .btns{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
 .btn{padding:10px 16px;border-radius:12px;border:none;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.15s}
 .btn:active{transform:scale(0.93)}
@@ -359,11 +361,11 @@ let hec=false,wOff=0,alerted=new Set(),alertMins=[0,5,10,15,30],alertIdx=3;
 
 const DS=[
   {t:'7:00 AM',h:7,m:0,l:'Wake + Feed',d:'4-6 oz · Diaper first · Lights on',i:'🍼',tp:'feed'},
-  {t:'8:15 AM',h:8,m:15,l:'Nap 1',d:'Swaddle · Dark · White noise · ~1.5 hrs',i:'😴',tp:'nap'},
+  {t:'8:30 AM',h:8,m:30,l:'Nap 1',d:'Swaddle · Dark · White noise · ~1.5 hrs',i:'😴',tp:'nap'},
   {t:'10:00 AM',h:10,m:0,l:'Wake + Feed',d:'4-6 oz · Tummy time · Play',i:'🍼',tp:'feed'},
-  {t:'11:15 AM',h:11,m:15,l:'Nap 2',d:'Swaddle · Dark · White noise · ~1.5 hrs',i:'😴',tp:'nap'},
+  {t:'11:30 AM',h:11,m:30,l:'Nap 2',d:'Swaddle · Dark · White noise · ~1.5 hrs',i:'😴',tp:'nap'},
   {t:'1:00 PM',h:13,m:0,l:'Wake + Feed',d:'4-6 oz · Sensory play',i:'🍼',tp:'feed'},
-  {t:'2:15 PM',h:14,m:15,l:'Nap 3',d:'Swaddle · Dark · White noise · ~1.5 hrs',i:'😴',tp:'nap'},
+  {t:'2:30 PM',h:14,m:30,l:'Nap 3',d:'Swaddle · Dark · White noise · ~1.5 hrs',i:'😴',tp:'nap'},
   {t:'4:00 PM',h:16,m:0,l:'Wake + Feed',d:'4-6 oz · Activity time',i:'🍼',tp:'feed'},
   {t:'5:00 PM',h:17,m:0,l:'Catnap',d:'30-45 min · End by 5:45',i:'😴',tp:'nap'}
 ];
@@ -378,8 +380,8 @@ const NS=[
 ];
 const HD=[
   {t:'7:00 AM',h:7,m:0,l:'Wake + Feed',d:'4-6 oz',i:'🍼',tp:'feed'},
-  {t:'8:30 AM',h:8,m:30,l:'Nap (flex)',d:'Car · Stroller · Carrier — anything counts',i:'😴',tp:'nap'},
-  {t:'10:30 AM',h:10,m:30,l:'Feed',d:'4-6 oz',i:'🍼',tp:'feed'},
+  {t:'9:00 AM',h:9,m:0,l:'Nap (flex)',d:'Car · Stroller · Carrier — anything counts',i:'😴',tp:'nap'},
+  {t:'10:30 AM',h:10,m:30,l:'Feed',d:'4-6 oz wherever you are',i:'🍼',tp:'feed'},
   {t:'12:00 PM',h:12,m:0,l:'Nap (flex)',d:'Any safe surface',i:'😴',tp:'nap'},
   {t:'1:30 PM',h:13,m:30,l:'Feed',d:'4-6 oz',i:'🍼',tp:'feed'},
   {t:'3:00 PM',h:15,m:0,l:'Nap (flex)',d:'Even 30 min counts',i:'😴',tp:'nap'},
@@ -469,12 +471,21 @@ function uF(){const f=gF();if(f.length){f.pop();sF(f);rFd();savS();renderNow()}}
 function cF(){document.getElementById('fm').style.display='flex';document.getElementById('coz').focus()}
 function xCF(){document.getElementById('fm').style.display='none'}
 function sCF(){const oz=parseFloat(document.getElementById('coz').value);if(oz>0){lF(oz);xCF();document.getElementById('coz').value=''}}
+function delF(idx){
+  const f=gF();if(idx>=0&&idx<f.length){f.splice(idx,1);sF(f);rFd();savS();renderNow()}
+}
 function rFd(){
   const f=gF(),tot=f.reduce((s,x)=>s+x.oz,0),pct=Math.min(100,tot/32*100);
   document.getElementById('ffl').style.width=pct+'%';
   document.getElementById('ftt').textContent=tot.toFixed(1)+' oz today';
-  let h='';f.slice().reverse().forEach(x=>{h+=`<div class="fe"><span>${x.time}</span><span>${x.oz} oz</span></div>`});
-  document.getElementById('flg').innerHTML=h;
+  let h='';f.forEach((x,i)=>{
+    h+=`<div class="fe"><span>${x.time}</span><span>${x.oz} oz</span><button class="fe-del" onclick="delF(${i})">✕</button></div>`;
+  });
+  // Show newest first
+  const el=document.createElement('div');el.innerHTML=h;
+  const items=Array.from(el.children).reverse();
+  document.getElementById('flg').innerHTML='';
+  items.forEach(item=>document.getElementById('flg').appendChild(item));
 }
 function savS(){
   const f=gF(),tot=f.reduce((s,x)=>s+x.oz,0);
