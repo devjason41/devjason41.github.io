@@ -423,9 +423,9 @@
   .schedule-card {
     position: relative;
     display: grid;
-    grid-template-columns: auto 1fr auto auto;
+    grid-template-columns: auto 1fr auto auto auto;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
     padding: 16px;
     border-radius: 22px;
     transition: transform 0.3s var(--ease-spring), box-shadow 0.3s var(--ease-spring), border-color 0.3s ease, opacity 0.3s ease;
@@ -451,6 +451,86 @@
     box-shadow: 0 22px 54px rgba(0, 0, 0, 0.36), 0 0 0 1px rgba(255, 255, 255, 0.06) inset;
     transform: translateY(-2px);
   }
+
+  .schedule-note {
+    grid-column: 1 / -1;
+    padding: 8px 12px;
+    margin-top: 4px;
+    border-radius: 12px;
+    background: rgba(255, 200, 100, 0.08);
+    border: 1px solid rgba(255, 200, 100, 0.15);
+    font-size: 12px;
+    color: #ffd97d;
+    line-height: 1.4;
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .schedule-note .note-icon { flex-shrink: 0; font-size: 14px; }
+  .schedule-note .note-text { flex: 1; }
+  .schedule-note .note-who { font-weight: 700; }
+  .schedule-note .note-time { color: rgba(255, 217, 125, 0.6); font-size: 10px; margin-left: 6px; }
+  .schedule-note .note-del { 
+    color: rgba(255,120,120,0.7); font-size: 11px; cursor: pointer; padding: 2px 6px; 
+    border-radius: 6px; background: rgba(255,120,120,0.08); border: none; margin-left: auto; flex-shrink: 0;
+  }
+  .note-btn {
+    width: 28px; height: 28px; border-radius: 10px; border: 1.5px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.4); font-size: 14px;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+  }
+  .note-btn:active { transform: scale(0.9); }
+  .note-btn.has-note { color: #ffd97d; border-color: rgba(255,217,125,0.3); background: rgba(255,200,100,0.08); }
+
+  /* Note modal */
+  .note-modal-bg {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 400;
+    display: none; align-items: flex-end; justify-content: center;
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  }
+  .note-modal-bg.show { display: flex; }
+  .note-modal {
+    background: var(--bg-2); border-radius: 24px 24px 0 0; padding: 24px 20px 32px;
+    width: 100%; max-width: 420px; box-shadow: 0 -8px 40px rgba(0,0,0,0.5);
+    border-top: 1px solid var(--stroke);
+  }
+  .note-modal h3 { font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 14px; }
+  .note-modal textarea {
+    width: 100%; padding: 12px 14px; border-radius: 14px; border: 1.5px solid rgba(255,255,255,0.12);
+    background: var(--bg-1); color: var(--text); font-size: 15px; font-family: inherit;
+    resize: none; height: 80px; outline: none; transition: border 0.2s;
+  }
+  .note-modal textarea:focus { border-color: var(--rose); }
+  .note-modal .note-who-input {
+    width: 100%; padding: 10px 14px; border-radius: 12px; border: 1.5px solid rgba(255,255,255,0.08);
+    background: var(--bg-1); color: var(--text); font-size: 14px; font-family: inherit;
+    outline: none; margin-top: 8px;
+  }
+  .note-modal .nm-btns { display: flex; gap: 8px; margin-top: 14px; }
+  .note-modal .nm-btns button {
+    flex: 1; padding: 12px; border-radius: 14px; border: none; font-size: 14px;
+    font-weight: 700; cursor: pointer; transition: all 0.15s;
+  }
+  .note-modal .nm-btns button:active { transform: scale(0.96); }
+  .note-modal .nm-save { background: var(--rose); color: #fff; }
+  .note-modal .nm-cancel { background: rgba(255,255,255,0.06); color: var(--muted); }
+
+  /* Sync bar */
+  .sync-bar {
+    margin: 0 16px 10px; padding: 12px 16px; border-radius: 16px;
+    background: linear-gradient(135deg, rgba(91,124,255,0.1), rgba(255,255,255,0.04));
+    border: 1px solid rgba(91,124,255,0.15);
+    display: flex; align-items: center; gap: 10px; font-size: 12px;
+  }
+  .sync-bar .sync-icon { font-size: 18px; }
+  .sync-bar .sync-info { flex: 1; }
+  .sync-bar .sync-info .sync-label { font-weight: 700; color: var(--text); font-size: 13px; }
+  .sync-bar .sync-info .sync-detail { color: var(--muted); margin-top: 2px; }
+  .sync-bar .sync-btn {
+    padding: 8px 14px; border-radius: 10px; border: none; font-size: 12px;
+    font-weight: 700; cursor: pointer; background: rgba(91,124,255,0.15); color: #8ba4ff;
+  }
+  .sync-bar .sync-btn:active { transform: scale(0.95); }
 
   .schedule-card.is-current::before {
     opacity: 1;
@@ -1143,6 +1223,15 @@
           <div class="section-note">Daytime cards first, night guide below. Every item stays tappable with a checkbox.</div>
         </div>
 
+        <div class="sync-bar">
+          <span class="sync-icon">🔗</span>
+          <div class="sync-info">
+            <div class="sync-label">Two-Parent Sync</div>
+            <div class="sync-detail">Tap to share today's schedule, feeds & notes</div>
+          </div>
+          <button class="sync-btn" data-sync-export>Share</button>
+        </div>
+
         <div class="subsection-bar">
           <div class="subsection-label">☀️ Daytime schedule</div>
           <div class="live-clock" id="liveClock">--:--</div>
@@ -1410,6 +1499,19 @@
         <div id="historyList" class="schedule-stack"></div>
       </section>
     </main>
+  </div>
+
+  <!-- Note Modal -->
+  <div class="note-modal-bg" id="noteModalBg">
+    <div class="note-modal">
+      <h3 id="noteModalTitle">📝 Add Note</h3>
+      <input class="note-who-input" id="noteWhoInput" placeholder="Your name (Mom / Dad)" maxlength="20">
+      <textarea id="noteTextInput" placeholder="e.g. Baby slept 20 min late, fed 3oz instead of 5..."></textarea>
+      <div class="nm-btns">
+        <button class="nm-cancel" id="noteCancelBtn">Cancel</button>
+        <button class="nm-save" id="noteSaveBtn">Save Note</button>
+      </div>
+    </div>
   </div>
 
   <nav class="tab-bar" aria-label="App sections">
@@ -1755,15 +1857,142 @@
     return entry.start >= 1440 ? "past" : "upcoming";
   }
 
+  // --- Notes system ---
+  function getNotesKey(date = nowInTimeZone()) { return "notes-" + dateKey(date); }
+  function getNotes(date = nowInTimeZone()) { return readJSON(getNotesKey(date), {}); }
+  function setNotes(notes, date = nowInTimeZone()) { localStorage.setItem(getNotesKey(date), JSON.stringify(notes)); }
+  function getParentName() { return localStorage.getItem("bt-parent-name") || ""; }
+  function setParentName(name) { localStorage.setItem("bt-parent-name", name); }
+
+  let noteTargetId = null;
+
+  function openNoteModal(entryId, entryLabel) {
+    noteTargetId = entryId;
+    document.getElementById("noteModalTitle").textContent = "📝 " + entryLabel;
+    document.getElementById("noteWhoInput").value = getParentName();
+    const existing = getNotes()[entryId];
+    document.getElementById("noteTextInput").value = existing ? existing.text : "";
+    document.getElementById("noteModalBg").classList.add("show");
+    document.getElementById("noteTextInput").focus();
+  }
+
+  function closeNoteModal() {
+    document.getElementById("noteModalBg").classList.remove("show");
+    noteTargetId = null;
+  }
+
+  function saveNote() {
+    if (!noteTargetId) return;
+    const text = document.getElementById("noteTextInput").value.trim();
+    const who = document.getElementById("noteWhoInput").value.trim();
+    if (who) setParentName(who);
+    const notes = getNotes();
+    if (text) {
+      notes[noteTargetId] = {
+        text, who: who || "—",
+        time: nowInTimeZone().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })
+      };
+    } else {
+      delete notes[noteTargetId];
+    }
+    setNotes(notes);
+    closeNoteModal();
+    renderToday();
+  }
+
+  function deleteNote(entryId) {
+    const notes = getNotes();
+    delete notes[entryId];
+    setNotes(notes);
+    renderToday();
+  }
+
+  // --- Sync system (copy/paste JSON snapshot) ---
+  function exportSnapshot() {
+    const date = nowInTimeZone();
+    const data = {
+      checks: getChecks(date),
+      feeds: getFeeds(date),
+      notes: getNotes(date),
+      date: dateKey(date),
+      exported: new Date().toISOString()
+    };
+    const json = JSON.stringify(data);
+    const encoded = btoa(unescape(encodeURIComponent(json)));
+    const url = window.location.origin + window.location.pathname + "#sync=" + encoded;
+    if (navigator.share) {
+      navigator.share({ title: "BabyTrack Sync", url }).catch(() => {
+        navigator.clipboard.writeText(url);
+        alert("Link copied! Send it to the other parent.");
+      });
+    } else {
+      navigator.clipboard.writeText(url).then(() => {
+        alert("Sync link copied! Send it to the other parent via text or chat.");
+      }).catch(() => {
+        prompt("Copy this link and send to the other parent:", url);
+      });
+    }
+  }
+
+  function importSnapshot() {
+    const hash = window.location.hash;
+    if (!hash.startsWith("#sync=")) return false;
+    try {
+      const encoded = hash.slice(6);
+      const json = decodeURIComponent(escape(atob(encoded)));
+      const data = JSON.parse(json);
+      if (!data.date) return false;
+      // Merge: incoming data overwrites
+      const date = nowInTimeZone();
+      const currentDate = dateKey(date);
+      if (data.date !== currentDate) {
+        alert("This sync link is from " + data.date + ", but today is " + currentDate + ". Data may not match.");
+      }
+      // Merge checks
+      const currentChecks = getChecks(date);
+      Object.assign(currentChecks, data.checks || {});
+      setChecks(currentChecks, date);
+      // Merge feeds (append new ones by time)
+      if (data.feeds && data.feeds.length) {
+        const currentFeeds = getFeeds(date);
+        const existingTimes = new Set(currentFeeds.map(f => f.time + "|" + f.oz));
+        data.feeds.forEach(f => {
+          if (!existingTimes.has(f.time + "|" + f.oz)) currentFeeds.push(f);
+        });
+        setFeeds(currentFeeds, date);
+      }
+      // Merge notes (incoming wins on conflict)
+      const currentNotes = getNotes(date);
+      Object.assign(currentNotes, data.notes || {});
+      setNotes(currentNotes, date);
+      window.location.hash = "";
+      renderAll();
+      alert("✅ Synced! Schedule, feeds, and notes updated from the other parent.");
+      return true;
+    } catch (e) {
+      console.error("Sync import failed", e);
+      return false;
+    }
+  }
+
   function renderScheduleCards(container, entries, checks, stateResolver) {
     const scheduleState = getActiveScheduleState();
+    const notes = getNotes();
     container.innerHTML = entries.map(entry => {
       const checked = Boolean(checks[entry.id]);
       const status = stateResolver(entry, scheduleState);
+      const note = notes[entry.id];
+      const hasNote = Boolean(note);
       const classes = ["schedule-card", entry.tone === "night" ? "night-tone" : ""];
       if (status === "current") classes.push("is-current");
       if (status === "past") classes.push("is-past");
       if (checked) classes.push("is-checked");
+      const noteHtml = hasNote ? `
+        <div class="schedule-note">
+          <span class="note-icon">📝</span>
+          <span class="note-text"><span class="note-who">${note.who}</span><span class="note-time">${note.time}</span><br>${note.text}</span>
+          <button class="note-del" data-delete-note="${entry.id}">✕</button>
+        </div>` : "";
       return `
         <article class="${classes.filter(Boolean).join(" ")}">
           <div class="time-block">
@@ -1774,10 +2003,12 @@
             <div class="schedule-title">${entry.label}</div>
             <div class="schedule-detail">${entry.detail}</div>
           </div>
+          <button class="note-btn ${hasNote ? 'has-note' : ''}" type="button" data-note-id="${entry.id}" data-note-label="${entry.label}" aria-label="Add note">📝</button>
           <div class="emoji-orb" aria-hidden="true">${entry.emoji}</div>
           <button class="check-toggle" type="button" data-check="${entry.id}" aria-label="Toggle ${entry.label}">
             ✓
           </button>
+          ${noteHtml}
         </article>
       `;
     }).join("");
@@ -2092,11 +2323,35 @@
     const tabButton = event.target.closest(".tab-button");
     if (tabButton) {
       setActiveTab(tabButton.dataset.tab);
+      return;
+    }
+
+    const noteButton = event.target.closest("[data-note-id]");
+    if (noteButton) {
+      openNoteModal(noteButton.dataset.noteId, noteButton.dataset.noteLabel);
+      return;
+    }
+
+    const deleteNoteButton = event.target.closest("[data-delete-note]");
+    if (deleteNoteButton) {
+      deleteNote(deleteNoteButton.dataset.deleteNote);
+      return;
+    }
+
+    const syncButton = event.target.closest("[data-sync-export]");
+    if (syncButton) {
+      exportSnapshot();
+      return;
     }
   });
 
   els.hecticToggle.addEventListener("click", toggleHecticMode);
   els.alertToggle.addEventListener("click", cycleAlerts);
+  document.getElementById("noteSaveBtn").addEventListener("click", saveNote);
+  document.getElementById("noteCancelBtn").addEventListener("click", closeNoteModal);
+  document.getElementById("noteModalBg").addEventListener("click", event => {
+    if (event.target === document.getElementById("noteModalBg")) closeNoteModal();
+  });
   document.getElementById("customFeedButton").addEventListener("click", openCustomModal);
   document.getElementById("undoFeedButton").addEventListener("click", undoFeed);
   els.saveCustomButton.addEventListener("click", saveCustomFeed);
@@ -2118,6 +2373,9 @@
   els.customModal.addEventListener("click", event => {
     if (event.target === els.customModal) closeCustomModal();
   });
+
+  // Check for incoming sync data in URL hash
+  importSnapshot();
 
   renderAll();
   checkAlerts();
