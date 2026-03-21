@@ -9,312 +9,526 @@
 <title>Baby Schedule Tracker</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#1a1a2e;color:#e0e0e0;min-height:100vh;padding-bottom:80px}
-.header{background:linear-gradient(135deg,#16213e,#0f3460);padding:20px 16px 16px;text-align:center;position:sticky;top:0;z-index:100}
-.header h1{font-size:20px;color:#e94560;margin-bottom:4px}
-.header .subtitle{font-size:13px;color:#a0a0b0}
-.baby-age{background:#0f3460;margin:0 16px;padding:12px;border-radius:12px;text-align:center;margin-top:12px}
-.baby-age .age{font-size:28px;font-weight:700;color:#e94560}
-.baby-age .born{font-size:12px;color:#a0a0b0;margin-top:2px}
-.section-title{font-size:14px;font-weight:600;color:#e94560;padding:16px 16px 8px;text-transform:uppercase;letter-spacing:1px}
-.schedule{padding:0 12px}
-.card{background:#16213e;border-radius:14px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:14px;position:relative;border-left:4px solid #0f3460;transition:all 0.3s}
-.card.active{border-left-color:#e94560;background:#1a2744}
-.card.done{opacity:0.5;border-left-color:#2ecc71}
-.card .time{font-size:22px;font-weight:700;color:#fff;min-width:70px}
-.card .info{flex:1}
-.card .info .label{font-size:15px;font-weight:600;color:#fff}
-.card .info .detail{font-size:12px;color:#a0a0b0;margin-top:2px}
-.card .icon{font-size:28px}
-.card .check{width:32px;height:32px;border-radius:50%;border:2px solid #555;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;flex-shrink:0}
-.card .check.checked{background:#2ecc71;border-color:#2ecc71;color:#fff}
-.feed-tracker{background:#16213e;margin:12px;border-radius:14px;padding:16px}
-.feed-tracker h3{font-size:14px;color:#e94560;margin-bottom:12px}
-.feed-bar{background:#0f3460;border-radius:10px;height:24px;overflow:hidden;margin-bottom:8px}
-.feed-fill{background:linear-gradient(90deg,#e94560,#ff6b6b);height:100%;border-radius:10px;transition:width 0.5s}
-.feed-stats{display:flex;justify-content:space-between;font-size:13px;color:#a0a0b0}
-.feed-log{margin-top:12px}
-.feed-log-entry{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #0f3460;font-size:13px}
-.btn-group{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
-.btn{padding:10px 18px;border-radius:10px;border:none;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.2s}
-.btn-primary{background:#e94560;color:#fff}
-.btn-secondary{background:#0f3460;color:#e0e0e0}
-.btn:active{transform:scale(0.95)}
-.alert-banner{background:#e94560;color:#fff;padding:14px 16px;text-align:center;font-weight:600;font-size:15px;animation:pulse 2s infinite;position:fixed;bottom:0;left:0;right:0;z-index:200;display:none}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.7}}
-.timer-display{font-size:40px;font-weight:700;text-align:center;color:#fff;padding:10px;font-variant-numeric:tabular-nums}
-.next-up{background:linear-gradient(135deg,#e94560,#c0392b);margin:12px;border-radius:14px;padding:16px;text-align:center}
-.next-up .next-label{font-size:12px;color:#ffcdd2;text-transform:uppercase;letter-spacing:1px}
-.next-up .next-event{font-size:18px;font-weight:700;color:#fff;margin-top:4px}
-.next-up .next-time{font-size:14px;color:#ffcdd2;margin-top:4px}
-.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:300;display:none;align-items:center;justify-content:center}
-.modal{background:#16213e;border-radius:16px;padding:24px;margin:20px;max-width:340px;width:100%}
-.modal h3{color:#e94560;margin-bottom:16px;font-size:18px}
-.modal input{width:100%;padding:12px;border-radius:10px;border:1px solid #333;background:#0f3460;color:#fff;font-size:16px;margin-bottom:12px}
-.tabs{display:flex;gap:0;margin:12px;border-radius:12px;overflow:hidden}
-.tab{flex:1;padding:12px;text-align:center;font-size:13px;font-weight:600;cursor:pointer;background:#16213e;color:#a0a0b0;transition:all 0.2s}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#1a1a2e;color:#e0e0e0;min-height:100vh;padding-bottom:100px;overflow-x:hidden}
+.header{background:linear-gradient(135deg,#16213e,#0f3460);padding:18px 16px 14px;text-align:center;position:sticky;top:0;z-index:100}
+.header h1{font-size:20px;color:#e94560}
+.header .sub{font-size:12px;color:#a0a0b0;margin-top:2px}
+.age-bar{background:#0f3460;margin:0 12px;padding:12px;border-radius:12px;text-align:center;margin-top:10px}
+.age-bar .age{font-size:26px;font-weight:700;color:#e94560}
+.age-bar .born{font-size:11px;color:#a0a0b0;margin-top:2px}
+.now-banner{background:linear-gradient(135deg,#e94560,#c0392b);margin:10px 12px;border-radius:14px;padding:14px 16px;text-align:center}
+.now-banner .now-label{font-size:11px;color:#ffcdd2;text-transform:uppercase;letter-spacing:1px}
+.now-banner .now-event{font-size:17px;font-weight:700;color:#fff;margin-top:3px}
+.now-banner .now-sub{font-size:13px;color:#ffcdd2;margin-top:3px}
+.tabs{display:flex;margin:10px 12px;border-radius:12px;overflow:hidden;flex-wrap:wrap}
+.tab{flex:1;padding:10px 4px;text-align:center;font-size:11px;font-weight:600;cursor:pointer;background:#16213e;color:#a0a0b0;transition:all 0.2s;min-width:60px}
 .tab.active{background:#e94560;color:#fff}
-.tab-content{display:none}
-.tab-content.active{display:block}
-.bedtime-routine{padding:0 12px}
-.routine-step{background:#16213e;border-radius:12px;padding:14px;margin-bottom:8px;display:flex;align-items:center;gap:12px}
-.routine-step .step-num{width:32px;height:32px;border-radius:50%;background:#e94560;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex-shrink:0}
-.routine-step .step-text{font-size:14px}
+.tab-content{display:none}.tab-content.active{display:block}
+.stitle{font-size:13px;font-weight:600;color:#e94560;padding:14px 14px 6px;text-transform:uppercase;letter-spacing:1px}
+.schedule{padding:0 10px}
+.card{background:#16213e;border-radius:12px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;border-left:4px solid #0f3460;transition:all 0.3s;position:relative}
+.card.now{border-left-color:#e94560;background:#1a2744;box-shadow:0 0 12px rgba(233,69,96,0.3)}
+.card.past{opacity:0.45;border-left-color:#2ecc71}
+.card.upcoming{border-left-color:#0f3460}
+.card .time{font-size:20px;font-weight:700;color:#fff;min-width:62px}
+.card .info{flex:1}
+.card .info .label{font-size:14px;font-weight:600;color:#fff}
+.card .info .detail{font-size:11px;color:#a0a0b0;margin-top:2px}
+.card .icon{font-size:24px}
+.card .chk{width:28px;height:28px;border-radius:50%;border:2px solid #555;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;flex-shrink:0}
+.card .chk.on{background:#2ecc71;border-color:#2ecc71;color:#fff}
+.alert-tag{position:absolute;top:4px;right:8px;font-size:9px;color:#e94560;font-weight:700}
+/* Feed tracker */
+.ft{background:#16213e;margin:10px 12px;border-radius:14px;padding:14px}
+.ft h3{font-size:13px;color:#e94560;margin-bottom:10px}
+.fbar{background:#0f3460;border-radius:10px;height:22px;overflow:hidden;margin-bottom:6px}
+.ffill{background:linear-gradient(90deg,#e94560,#ff6b6b);height:100%;border-radius:10px;transition:width 0.5s}
+.fstats{display:flex;justify-content:space-between;font-size:12px;color:#a0a0b0}
+.flog-entry{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #0f3460;font-size:12px}
+.btns{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.btn{padding:9px 14px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s}
+.btn-p{background:#e94560;color:#fff}
+.btn-s{background:#0f3460;color:#e0e0e0}
+.btn:active{transform:scale(0.95)}
+/* Toggle switch */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;margin:8px 12px;background:#16213e;border-radius:12px}
+.toggle-row .tl{font-size:13px;font-weight:600}
+.toggle-row .ts{font-size:11px;color:#a0a0b0}
+.switch{width:50px;height:28px;background:#333;border-radius:14px;position:relative;cursor:pointer;transition:background 0.3s}
+.switch.on{background:#e94560}
+.switch::after{content:'';position:absolute;width:22px;height:22px;border-radius:50%;background:#fff;top:3px;left:3px;transition:left 0.3s}
+.switch.on::after{left:25px}
+/* Sleep guide */
+.sg{padding:0 12px}
+.sg-card{background:#16213e;border-radius:12px;padding:14px;margin-bottom:8px}
+.sg-card h4{font-size:14px;color:#e94560;margin-bottom:6px}
+.sg-card p{font-size:12px;color:#c0c0d0;line-height:1.5}
+.sg-card ul{margin:6px 0 0 16px;font-size:12px;color:#c0c0d0;line-height:1.6}
+/* Weekly/Monthly */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;padding:0 12px;margin-bottom:12px}
+.cal-head{text-align:center;font-size:10px;color:#a0a0b0;font-weight:600;padding:4px}
+.cal-day{background:#16213e;border-radius:8px;padding:8px 4px;text-align:center;font-size:12px;min-height:52px}
+.cal-day .cd-num{font-weight:700;color:#fff;font-size:13px}
+.cal-day .cd-oz{font-size:10px;color:#e94560;margin-top:2px}
+.cal-day .cd-naps{font-size:9px;color:#a0a0b0}
+.cal-day.today{border:2px solid #e94560}
+.cal-day.future{opacity:0.3}
+.cal-nav{display:flex;justify-content:space-between;align-items:center;padding:10px 14px}
+.cal-nav .cn-title{font-size:15px;font-weight:600;color:#fff}
+.cal-nav button{background:#0f3460;border:none;color:#fff;padding:8px 14px;border-radius:8px;font-size:13px;cursor:pointer}
+/* Routine steps */
+.rstep{background:#16213e;border-radius:12px;padding:12px;margin:0 12px 8px;display:flex;align-items:center;gap:10px}
+.rstep .sn{width:28px;height:28px;border-radius:50%;background:#e94560;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0}
+.rstep .st{font-size:13px;line-height:1.4}
+.rstep .st b{color:#fff}
+/* Modal */
+.modal-bg{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:300;display:none;align-items:center;justify-content:center}
+.modal{background:#16213e;border-radius:16px;padding:20px;margin:20px;max-width:320px;width:100%}
+.modal h3{color:#e94560;margin-bottom:12px;font-size:16px}
+.modal input{width:100%;padding:10px;border-radius:10px;border:1px solid #333;background:#0f3460;color:#fff;font-size:16px;margin-bottom:10px}
+/* Alert settings */
+.alert-setting{display:flex;align-items:center;gap:10px;padding:10px 14px;margin:8px 12px;background:#16213e;border-radius:12px}
+.alert-setting select{background:#0f3460;color:#fff;border:1px solid #333;border-radius:8px;padding:6px 10px;font-size:13px}
 </style>
 </head>
 <body>
 
 <div class="header">
   <h1>👶 Baby Schedule</h1>
-  <div class="subtitle">Based on Infant Schedule Framework</div>
+  <div class="sub">Infant Schedule Tracker · EST</div>
 </div>
 
-<div class="baby-age">
-  <div class="age" id="baby-age">8 weeks</div>
-  <div class="born">Born January 20, 2026 · Stage: 8-16 Weeks</div>
+<div class="age-bar">
+  <div class="age" id="age"></div>
+  <div class="born">Born January 20, 2026 · <span id="stage-label"></span></div>
 </div>
 
-<div class="next-up" id="next-up">
-  <div class="next-label">Coming Up Next</div>
-  <div class="next-event" id="next-event">Loading...</div>
-  <div class="next-time" id="next-countdown"></div>
+<div class="now-banner" id="now-banner">
+  <div class="now-label" id="now-label">Current Time</div>
+  <div class="now-event" id="now-event"></div>
+  <div class="now-sub" id="now-sub"></div>
 </div>
 
-<div class="tabs">
-  <div class="tab active" onclick="showTab('schedule')">Schedule</div>
-  <div class="tab" onclick="showTab('feeding')">Feeding</div>
-  <div class="tab" onclick="showTab('bedtime')">Bedtime</div>
+<!-- Alert Setting -->
+<div class="alert-setting">
+  <span style="font-size:13px">⏰ Alert me</span>
+  <select id="alert-min" onchange="saveAlertPref()">
+    <option value="0">Off</option>
+    <option value="5">5 min before</option>
+    <option value="10">10 min before</option>
+    <option value="15" selected>15 min before</option>
+    <option value="30">30 min before</option>
+  </select>
+  <span style="font-size:11px;color:#a0a0b0">before each event</span>
 </div>
 
-<!-- SCHEDULE TAB -->
+<!-- Schedule Toggle -->
+<div class="toggle-row" onclick="toggleHectic()">
+  <div><div class="tl">🔄 Hectic Day Mode</div><div class="ts">Flexible timing, fewer naps, combined feeds</div></div>
+  <div class="switch" id="hectic-switch"></div>
+</div>
+
+<div class="tabs" id="main-tabs">
+  <div class="tab active" onclick="showTab('schedule',this)">Today</div>
+  <div class="tab" onclick="showTab('feeding',this)">Feeding</div>
+  <div class="tab" onclick="showTab('sleep',this)">Sleep</div>
+  <div class="tab" onclick="showTab('bedtime',this)">Bedtime</div>
+  <div class="tab" onclick="showTab('weekly',this)">Week</div>
+  <div class="tab" onclick="showTab('monthly',this)">Month</div>
+</div>
+
+<!-- TODAY TAB -->
 <div class="tab-content active" id="tab-schedule">
-  <div class="section-title">Today's Schedule</div>
-  <div class="schedule" id="schedule-list"></div>
+  <div class="stitle">Today's Schedule <span id="clock" style="float:right;color:#fff;font-size:12px"></span></div>
+  <div class="schedule" id="sched"></div>
 </div>
 
 <!-- FEEDING TAB -->
 <div class="tab-content" id="tab-feeding">
-  <div class="feed-tracker">
-    <h3>Daily Feeding Tracker</h3>
-    <div class="feed-bar"><div class="feed-fill" id="feed-fill" style="width:0%"></div></div>
-    <div class="feed-stats">
-      <span id="feed-total">0 oz today</span>
-      <span>Goal: 24-32 oz</span>
+  <div class="ft">
+    <h3>🍼 Daily Feeding Tracker</h3>
+    <div class="fbar"><div class="ffill" id="ffill" style="width:0%"></div></div>
+    <div class="fstats"><span id="ftotal">0 oz</span><span>Goal: 24-32 oz</span></div>
+    <div class="btns">
+      <button class="btn btn-p" onclick="logFeed(4)">+4oz</button>
+      <button class="btn btn-p" onclick="logFeed(5)">+5oz</button>
+      <button class="btn btn-p" onclick="logFeed(6)">+6oz</button>
+      <button class="btn btn-s" onclick="customFeed()">Custom</button>
+      <button class="btn btn-s" onclick="undoFeed()">Undo</button>
+      <button class="btn btn-s" onclick="resetFeeds()">Reset</button>
     </div>
-    <div class="btn-group">
-      <button class="btn btn-primary" onclick="logFeed(4)">+4 oz</button>
-      <button class="btn btn-primary" onclick="logFeed(5)">+5 oz</button>
-      <button class="btn btn-primary" onclick="logFeed(6)">+6 oz</button>
-      <button class="btn btn-secondary" onclick="customFeed()">Custom</button>
-      <button class="btn btn-secondary" onclick="resetFeeds()">Reset Day</button>
+    <div id="flog" style="margin-top:10px"></div>
+  </div>
+  <div class="stitle">Feeding Guide (8-16 Weeks)</div>
+  <div class="sg">
+    <div class="sg-card">
+      <h4>Formula Amounts</h4>
+      <ul>
+        <li>4-6 oz per feed, 5-6 feeds per day</li>
+        <li>Daily total target: 24-32 oz</li>
+        <li>Night feed (if needed): 4-5 oz</li>
+        <li>Don't force baby to finish — watch for cues</li>
+        <li>Pace feeding: hold bottle at slight angle, pause every 1-2 oz</li>
+      </ul>
     </div>
-    <div class="feed-log" id="feed-log"></div>
+    <div class="sg-card">
+      <h4>Signs Baby Is Hungry</h4>
+      <ul>
+        <li>Rooting — turning head, opening mouth</li>
+        <li>Hands to mouth</li>
+        <li>Smacking lips, sucking motions</li>
+        <li>Fussing (crying is a late hunger cue)</li>
+      </ul>
+    </div>
+    <div class="sg-card">
+      <h4>Signs Baby Is Full</h4>
+      <ul>
+        <li>Turns head away from bottle</li>
+        <li>Closes mouth, pushes nipple out</li>
+        <li>Slows or stops sucking</li>
+        <li>Relaxed hands (fists open up)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SLEEP TAB -->
+<div class="tab-content" id="tab-sleep">
+  <div class="stitle">Daytime Sleep Guide</div>
+  <div class="sg">
+    <div class="sg-card">
+      <h4>☀️ Daytime Nap Rules (8-16 Weeks)</h4>
+      <ul>
+        <li><b>4-5 naps per day</b> (3 long + 1 catnap)</li>
+        <li><b>Wake windows:</b> 1-2 hours max before next nap</li>
+        <li>Swaddle for every nap (arms in)</li>
+        <li>Dark room — blackout curtains or shades</li>
+        <li>White noise — consistent, not too loud</li>
+        <li>Put down <b>drowsy but awake</b></li>
+        <li>If baby cries, wait 5 minutes before going in</li>
+        <li>When you go in: shush, pat, replace pacifier — <b>no picking up</b></li>
+        <li>Cap each nap at 2 hours to protect nighttime sleep</li>
+        <li>Last nap (catnap) should end by 5:30-5:45 PM</li>
+      </ul>
+    </div>
+    <div class="sg-card">
+      <h4>Sleepy Cues — Watch For These</h4>
+      <ul>
+        <li>Yawning</li>
+        <li>Eye rubbing</li>
+        <li>Looking away / avoiding eye contact</li>
+        <li>Fussing after being content</li>
+        <li>Jerky arm/leg movements</li>
+        <li><b>Act fast:</b> overtired babies fight sleep harder</li>
+      </ul>
+    </div>
+  </div>
+  <div class="stitle">Nighttime Sleep Guide</div>
+  <div class="sg">
+    <div class="sg-card">
+      <h4>🌙 Night Sleep Rules (8-16 Weeks)</h4>
+      <ul>
+        <li><b>Bedtime: 7:00-7:30 PM</b> — same time every night</li>
+        <li>Full bedtime routine before every night (see Bedtime tab)</li>
+        <li>Room should be <b>completely dark</b></li>
+        <li>White noise all night — don't turn off until morning</li>
+        <li><b>Night feed (if needed):</b> lights OFF, no talking, no eye contact, no diaper change unless soiled — pure business</li>
+        <li>Goal: one night feed max, working toward zero</li>
+        <li>If baby wakes and it's not feed time, wait 5 minutes</li>
+        <li>If still crying after 5 min: brief check — shush, pat, pacifier — leave</li>
+        <li><b>7:00 AM is the anchor.</b> Wake baby at 7:00 AM even if still sleeping. This sets the whole day.</li>
+      </ul>
+    </div>
+    <div class="sg-card">
+      <h4>Night Wake Troubleshooting</h4>
+      <ul>
+        <li><b>Waking every 2 hours?</b> Likely a feed association — baby needs to learn to fall asleep without bottle</li>
+        <li><b>Waking at 4-5 AM?</b> Common. Don't start the day. Keep dark, offer pacifier, treat as nighttime until 7 AM</li>
+        <li><b>Won't go back down after night feed?</b> Feed may be too stimulating — keep it boring, dark, silent</li>
+        <li><b>Fighting bedtime?</b> May be overtired — try moving bedtime 15-30 min earlier</li>
+      </ul>
+    </div>
+    <div class="sg-card">
+      <h4>Safe Sleep Reminders</h4>
+      <ul>
+        <li>Always on back</li>
+        <li>Firm, flat mattress</li>
+        <li>Nothing in crib — no blankets, pillows, toys, bumpers</li>
+        <li>Swaddle snug around chest, loose at hips</li>
+        <li>Room temp 68-72°F</li>
+      </ul>
+    </div>
   </div>
 </div>
 
 <!-- BEDTIME TAB -->
 <div class="tab-content" id="tab-bedtime">
-  <div class="section-title">Bedtime Routine (6:15 PM)</div>
-  <div class="bedtime-routine">
-    <div class="routine-step"><div class="step-num">1</div><div class="step-text"><b>6:15 PM — Bath</b><br>Warm water, short, calming</div></div>
-    <div class="routine-step"><div class="step-num">2</div><div class="step-text"><b>Lotion & Massage</b><br>Gentle, dim the lights</div></div>
-    <div class="routine-step"><div class="step-num">3</div><div class="step-text"><b>Pajamas + Fresh Diaper</b></div></div>
-    <div class="routine-step"><div class="step-num">4</div><div class="step-text"><b>Swaddle</b><br>Arms in (until ~16 weeks or rolling)</div></div>
-    <div class="routine-step"><div class="step-num">5</div><div class="step-text"><b>Final Bottle</b><br>4-6 oz, dim room, quiet</div></div>
-    <div class="routine-step"><div class="step-num">6</div><div class="step-text"><b>Sound Machine On</b><br>Lights fully off</div></div>
-    <div class="routine-step"><div class="step-num">7</div><div class="step-text"><b>In Crib — Drowsy But Awake</b><br>7:00-7:30 PM</div></div>
-    <div class="routine-step"><div class="step-num">8</div><div class="step-text"><b>Walk Out</b><br>Don't linger. If crying, wait 5 min before checking.</div></div>
-  </div>
-  <div class="section-title" style="margin-top:8px">Key Rules</div>
-  <div class="bedtime-routine">
-    <div class="routine-step"><div class="step-num">!</div><div class="step-text">Feed → Wake → Sleep cycle. Never feed TO sleep.</div></div>
-    <div class="routine-step"><div class="step-num">!</div><div class="step-text">Dark room + white noise for ALL sleep</div></div>
-    <div class="routine-step"><div class="step-num">!</div><div class="step-text">1.5-2 hour wake windows MAX</div></div>
-    <div class="routine-step"><div class="step-num">!</div><div class="step-text">7 AM is the anchor. Wake baby at 7 even if sleeping.</div></div>
-  </div>
+  <div class="stitle">Bedtime Routine (Start 6:15 PM)</div>
+  <div class="rstep"><div class="sn">1</div><div class="st"><b>6:15 PM — Bath</b><br>Warm water, short, calming. Not too hot.</div></div>
+  <div class="rstep"><div class="sn">2</div><div class="st"><b>Lotion & Massage</b><br>Gentle strokes, dim lights. Quiet voice only.</div></div>
+  <div class="rstep"><div class="sn">3</div><div class="st"><b>Pajamas + Fresh Diaper</b><br>Comfortable, not too warm.</div></div>
+  <div class="rstep"><div class="sn">4</div><div class="st"><b>Swaddle</b><br>Arms in. Snug chest, loose hips. Until ~16 weeks or rolling.</div></div>
+  <div class="rstep"><div class="sn">5</div><div class="st"><b>Final Bottle — 4-6 oz</b><br>Dim room, quiet. Keep baby slightly awake.</div></div>
+  <div class="rstep"><div class="sn">6</div><div class="st"><b>Sound Machine On</b><br>White noise. Lights fully off.</div></div>
+  <div class="rstep"><div class="sn">7</div><div class="st"><b>In Crib — Drowsy But Awake</b><br>7:00-7:30 PM. This is the most important part.</div></div>
+  <div class="rstep"><div class="sn">8</div><div class="st"><b>Walk Out. Don't Linger.</b><br>If crying: wait 5 min. Then brief check — shush, pat, pacifier. Leave again. No picking up.</div></div>
+  <div class="stitle" style="margin-top:6px">Core Rules</div>
+  <div class="rstep"><div class="sn">!</div><div class="st"><b>Feed → Wake → Sleep.</b> Never feed TO sleep. This is the foundation.</div></div>
+  <div class="rstep"><div class="sn">!</div><div class="st"><b>Consistency wins.</b> Same routine, same order, same time. Every single night.</div></div>
+  <div class="rstep"><div class="sn">!</div><div class="st"><b>Both parents do it.</b> Baby should accept the routine from either parent.</div></div>
 </div>
 
-<!-- ALERT BANNER -->
-<div class="alert-banner" id="alert-banner"></div>
+<!-- WEEKLY TAB -->
+<div class="tab-content" id="tab-weekly">
+  <div class="stitle">Weekly Overview</div>
+  <div class="cal-nav">
+    <button onclick="changeWeek(-1)">← Prev</button>
+    <div class="cn-title" id="week-title"></div>
+    <button onclick="changeWeek(1)">Next →</button>
+  </div>
+  <div class="cal-grid" id="week-grid"></div>
+</div>
 
-<!-- FEED MODAL -->
-<div class="modal-overlay" id="feed-modal">
+<!-- MONTHLY TAB -->
+<div class="tab-content" id="tab-monthly">
+  <div class="stitle">Monthly Overview</div>
+  <div class="cal-nav">
+    <button onclick="changeMonth(-1)">← Prev</button>
+    <div class="cn-title" id="month-title"></div>
+    <button onclick="changeMonth(1)">Next →</button>
+  </div>
+  <div class="cal-grid" id="month-grid"></div>
+</div>
+
+<!-- Modal -->
+<div class="modal-bg" id="fmod">
   <div class="modal">
     <h3>Log Custom Feed</h3>
-    <input type="number" id="custom-oz" placeholder="Ounces (e.g. 3.5)" step="0.5" min="0.5" max="10">
-    <div class="btn-group">
-      <button class="btn btn-primary" onclick="submitCustomFeed()">Log It</button>
-      <button class="btn btn-secondary" onclick="closeFeedModal()">Cancel</button>
+    <input type="number" id="coz" placeholder="Ounces" step="0.5" min="0.5" max="12">
+    <div class="btns">
+      <button class="btn btn-p" onclick="submitCF()">Log</button>
+      <button class="btn btn-s" onclick="closeCF()">Cancel</button>
     </div>
   </div>
 </div>
 
 <script>
-const BIRTH_DATE = new Date('2026-01-20T00:00:00');
-const SCHEDULE = [
-  {time:'7:00 AM',h:7,m:0,label:'Wake + Feed',detail:'4-6 oz formula. Diaper change. Lights on, interaction time.',icon:'🍼',type:'feed'},
-  {time:'8:15 AM',h:8,m:15,label:'Nap 1',detail:'Swaddled, dark room, white noise. ~1.5 hours.',icon:'😴',type:'nap'},
-  {time:'10:00 AM',h:10,m:0,label:'Wake + Feed',detail:'4-6 oz formula. Play time, tummy time.',icon:'🍼',type:'feed'},
-  {time:'11:15 AM',h:11,m:15,label:'Nap 2',detail:'Swaddled, dark room, white noise. ~1.5 hours.',icon:'😴',type:'nap'},
-  {time:'1:00 PM',h:13,m:0,label:'Wake + Feed',detail:'4-6 oz formula. Interaction, sensory play.',icon:'🍼',type:'feed'},
-  {time:'2:15 PM',h:14,m:15,label:'Nap 3',detail:'Swaddled, dark room, white noise. ~1.5 hours.',icon:'😴',type:'nap'},
-  {time:'4:00 PM',h:16,m:0,label:'Wake + Feed',detail:'4-6 oz formula. Activity time.',icon:'🍼',type:'feed'},
-  {time:'5:00 PM',h:17,m:0,label:'Catnap',detail:'Short nap, 30-45 min max.',icon:'😴',type:'nap'},
-  {time:'6:15 PM',h:18,m:15,label:'Bath + Bedtime Routine',detail:'Start bedtime routine. See Bedtime tab.',icon:'🛁',type:'routine'},
-  {time:'7:00 PM',h:19,m:0,label:'Final Feed + Down',detail:'4-6 oz formula. Swaddle, dark room, sound machine. In crib drowsy but awake.',icon:'🌙',type:'feed'},
-  {time:'3:00 AM',h:3,m:0,label:'Night Feed (if needed)',detail:'4-5 oz. Lights off, no talking, no eye contact. Back down immediately.',icon:'🌑',type:'night'}
+const BD=new Date('2026-01-20T00:00:00');
+const NORMAL=[
+  {t:'7:00 AM',h:7,m:0,l:'Wake + Feed',d:'4-6 oz. Diaper. Lights on.',i:'🍼',tp:'feed'},
+  {t:'8:15 AM',h:8,m:15,l:'Nap 1',d:'Swaddle, dark, white noise. ~1.5 hrs.',i:'😴',tp:'nap'},
+  {t:'10:00 AM',h:10,m:0,l:'Wake + Feed',d:'4-6 oz. Play time, tummy time.',i:'🍼',tp:'feed'},
+  {t:'11:15 AM',h:11,m:15,l:'Nap 2',d:'Swaddle, dark, white noise. ~1.5 hrs.',i:'😴',tp:'nap'},
+  {t:'1:00 PM',h:13,m:0,l:'Wake + Feed',d:'4-6 oz. Interaction, sensory play.',i:'🍼',tp:'feed'},
+  {t:'2:15 PM',h:14,m:15,l:'Nap 3',d:'Swaddle, dark, white noise. ~1.5 hrs.',i:'😴',tp:'nap'},
+  {t:'4:00 PM',h:16,m:0,l:'Wake + Feed',d:'4-6 oz. Activity time.',i:'🍼',tp:'feed'},
+  {t:'5:00 PM',h:17,m:0,l:'Catnap',d:'30-45 min max. End by 5:45.',i:'😴',tp:'nap'},
+  {t:'6:15 PM',h:18,m:15,l:'Bath + Bedtime Routine',d:'Start routine. See Bedtime tab.',i:'🛁',tp:'routine'},
+  {t:'7:00 PM',h:19,m:0,l:'Final Feed + Down',d:'4-6 oz. Swaddle, crib, drowsy but awake.',i:'🌙',tp:'feed'},
+  {t:'3:00 AM',h:3,m:0,l:'Night Feed (if needed)',d:'4-5 oz. Dark, silent, back down fast.',i:'🌑',tp:'night'}
 ];
+const HECTIC=[
+  {t:'7:00 AM',h:7,m:0,l:'Wake + Feed',d:'4-6 oz. Start the day.',i:'🍼',tp:'feed'},
+  {t:'8:30 AM',h:8,m:30,l:'Nap (flexible)',d:'Stroller, car seat, carrier — any nap counts.',i:'😴',tp:'nap'},
+  {t:'10:30 AM',h:10,m:30,l:'Feed',d:'4-6 oz. Wherever you are.',i:'🍼',tp:'feed'},
+  {t:'12:00 PM',h:12,m:0,l:'Nap (flexible)',d:'Any safe sleep surface. Don\'t stress location.',i:'😴',tp:'nap'},
+  {t:'1:30 PM',h:13,m:30,l:'Feed',d:'4-6 oz.',i:'🍼',tp:'feed'},
+  {t:'3:00 PM',h:15,m:0,l:'Nap (flexible)',d:'Even 30 min counts. Take what you can get.',i:'😴',tp:'nap'},
+  {t:'4:30 PM',h:16,m:30,l:'Feed',d:'4-6 oz.',i:'🍼',tp:'feed'},
+  {t:'6:15 PM',h:18,m:15,l:'Bath + Bedtime',d:'Get back on routine here. This is the reset.',i:'🛁',tp:'routine'},
+  {t:'7:00 PM',h:19,m:0,l:'Final Feed + Down',d:'Back to normal. Swaddle, dark, crib.',i:'🌙',tp:'feed'},
+  {t:'3:00 AM',h:3,m:0,l:'Night Feed (if needed)',d:'Keep it boring. Dark. Silent.',i:'🌑',tp:'night'}
+];
+let hectic=false,weekOff=0,monthOff=0,alertedSet=new Set();
 
-// Calculate baby age
+function getSchedule(){return hectic?HECTIC:NORMAL}
+function dk(d){return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}
+function estNow(){return new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}))}
+
 function calcAge(){
-  const now=new Date();
-  const diff=now-BIRTH_DATE;
-  const weeks=Math.floor(diff/(7*24*60*60*1000));
-  const days=Math.floor((diff%(7*24*60*60*1000))/(24*60*60*1000));
-  document.getElementById('baby-age').textContent=weeks+' weeks, '+days+' days';
+  const now=estNow(),diff=now-BD;
+  const w=Math.floor(diff/(7*864e5)),d=Math.floor((diff%(7*864e5))/864e5);
+  document.getElementById('age').textContent=w+' weeks, '+d+' days';
+  let stage='';
+  if(w<8)stage='Stage: 0-8 Weeks';
+  else if(w<16)stage='Stage: 8-16 Weeks';
+  else if(w<24)stage='Stage: 16-24 Weeks';
+  else stage='Stage: 6+ Months';
+  document.getElementById('stage-label').textContent=stage;
 }
 
-// Render schedule
+function toMin(h,m){let v=h*60+m;if(h<6)v+=1440;return v}
+
+function renderNow(){
+  const now=estNow(),nm=now.getHours()*60+now.getMinutes();
+  let cnm=nm;if(now.getHours()<6)cnm+=1440;
+  document.getElementById('clock').textContent=now.toLocaleTimeString([],{hour:'numeric',minute:'2-digit',hour12:true});
+  const sched=getSchedule();
+  let cur=null,nxt=null;
+  for(let i=0;i<sched.length;i++){
+    const sm=toMin(sched[i].h,sched[i].m);
+    const em=i<sched.length-1?toMin(sched[i+1].h,sched[i+1].m):sm+120;
+    if(cnm>=sm&&cnm<em){cur=sched[i]}
+    if(!nxt&&sm>cnm){nxt=sched[i]}
+  }
+  if(cur){
+    document.getElementById('now-label').textContent='RIGHT NOW';
+    document.getElementById('now-event').textContent=cur.i+' '+cur.l;
+    document.getElementById('now-sub').textContent=nxt?'Next: '+nxt.l+' at '+nxt.t:'';
+  }else if(nxt){
+    document.getElementById('now-label').textContent='COMING UP';
+    document.getElementById('now-event').textContent=nxt.i+' '+nxt.l;
+    const diff=toMin(nxt.h,nxt.m)-cnm;
+    document.getElementById('now-sub').textContent='in '+diff+' minutes ('+nxt.t+')';
+  }else{
+    document.getElementById('now-label').textContent='NIGHTTIME';
+    document.getElementById('now-event').textContent='🌙 Baby should be sleeping';
+    document.getElementById('now-sub').textContent='Next: Wake + Feed at 7:00 AM';
+  }
+}
+
 function renderSchedule(){
-  const now=new Date();
-  const nowMin=now.getHours()*60+now.getMinutes();
-  const list=document.getElementById('schedule-list');
-  const checks=JSON.parse(localStorage.getItem('checks-'+now.toDateString())||'{}');
-  
+  const now=estNow(),nm=now.getHours()*60+now.getMinutes();
+  let cnm=nm;if(now.getHours()<6)cnm+=1440;
+  const sched=getSchedule();
+  const checks=JSON.parse(localStorage.getItem('chk-'+dk(now))||'{}');
   let html='';
-  let nextIdx=-1;
-  
-  SCHEDULE.forEach((item,i)=>{
-    let itemMin=item.h*60+item.m;
-    if(item.h<6) itemMin+=24*60; // night feeds
-    let currentMin=nowMin;
-    if(nowMin<6*60) currentMin+=24*60;
-    
-    const isActive=!checks[i] && nextIdx===-1 && itemMin>=currentMin-30 && itemMin<=currentMin+30;
-    const isDone=checks[i];
-    const isPast=itemMin<currentMin && !isActive;
-    
-    if(!checks[i] && nextIdx===-1 && itemMin>currentMin){
-      nextIdx=i;
-    }
-    if(isActive && nextIdx===-1) nextIdx=i;
-    
-    html+=`<div class="card ${isActive?'active':''} ${isDone?'done':''}">
-      <div class="time">${item.time.replace(' AM','a').replace(' PM','p')}</div>
-      <div class="info">
-        <div class="label">${item.label}</div>
-        <div class="detail">${item.detail}</div>
-      </div>
-      <div class="icon">${item.icon}</div>
-      <div class="check ${isDone?'checked':''}" onclick="toggleCheck(${i})">${isDone?'✓':''}</div>
+  sched.forEach((s,i)=>{
+    const sm=toMin(s.h,s.m);
+    const done=checks[i];
+    let cls='upcoming';
+    if(done)cls='past';
+    else if(Math.abs(cnm-sm)<45)cls='now';
+    else if(sm<cnm)cls='past';
+    html+=`<div class="card ${cls}">
+      <div class="time">${s.t.replace(' AM','a').replace(' PM','p')}</div>
+      <div class="info"><div class="label">${s.l}</div><div class="detail">${s.d}</div></div>
+      <div class="icon">${s.i}</div>
+      <div class="chk ${done?'on':''}" onclick="togChk(${i})">${done?'✓':''}</div>
     </div>`;
   });
-  list.innerHTML=html;
-  
-  // Update next-up
-  if(nextIdx>=0 && nextIdx<SCHEDULE.length){
-    const next=SCHEDULE[nextIdx];
-    document.getElementById('next-event').textContent=next.icon+' '+next.label;
-    document.getElementById('next-countdown').textContent='at '+next.time;
-  }
+  document.getElementById('sched').innerHTML=html;
 }
 
-function toggleCheck(i){
-  const now=new Date();
-  const key='checks-'+now.toDateString();
-  const checks=JSON.parse(localStorage.getItem(key)||'{}');
-  checks[i]=!checks[i];
-  localStorage.setItem(key,JSON.stringify(checks));
-  renderSchedule();
-}
+function togChk(i){const now=estNow(),k='chk-'+dk(now),c=JSON.parse(localStorage.getItem(k)||'{}');c[i]=!c[i];localStorage.setItem(k,JSON.stringify(c));renderSchedule()}
 
-// Feeding tracker
-function getFeeds(){
-  const key='feeds-'+new Date().toDateString();
-  return JSON.parse(localStorage.getItem(key)||'[]');
-}
-function saveFeeds(feeds){
-  const key='feeds-'+new Date().toDateString();
-  localStorage.setItem(key,JSON.stringify(feeds));
-}
-function logFeed(oz){
-  const feeds=getFeeds();
-  feeds.push({oz:oz,time:new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})});
-  saveFeeds(feeds);
-  renderFeeds();
-}
-function resetFeeds(){
-  if(confirm('Reset all feeds for today?')){
-    const key='feeds-'+new Date().toDateString();
-    localStorage.removeItem(key);
-    renderFeeds();
-  }
-}
-function customFeed(){
-  document.getElementById('feed-modal').style.display='flex';
-  document.getElementById('custom-oz').focus();
-}
-function closeFeedModal(){
-  document.getElementById('feed-modal').style.display='none';
-}
-function submitCustomFeed(){
-  const oz=parseFloat(document.getElementById('custom-oz').value);
-  if(oz>0){logFeed(oz);closeFeedModal();document.getElementById('custom-oz').value='';}
-}
+// Feeds
+function getFeeds(){return JSON.parse(localStorage.getItem('fd-'+dk(estNow()))||'[]')}
+function saveFeeds(f){localStorage.setItem('fd-'+dk(estNow()),JSON.stringify(f))}
+function logFeed(oz){const f=getFeeds();f.push({oz,time:estNow().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})});saveFeeds(f);renderFeeds();saveDaySummary()}
+function undoFeed(){const f=getFeeds();if(f.length){f.pop();saveFeeds(f);renderFeeds();saveDaySummary()}}
+function resetFeeds(){if(confirm('Reset feeds?')){localStorage.removeItem('fd-'+dk(estNow()));renderFeeds()}}
+function customFeed(){document.getElementById('fmod').style.display='flex';document.getElementById('coz').focus()}
+function closeCF(){document.getElementById('fmod').style.display='none'}
+function submitCF(){const oz=parseFloat(document.getElementById('coz').value);if(oz>0){logFeed(oz);closeCF();document.getElementById('coz').value=''}}
 function renderFeeds(){
-  const feeds=getFeeds();
-  const total=feeds.reduce((s,f)=>s+f.oz,0);
-  const pct=Math.min(100,total/32*100);
-  document.getElementById('feed-fill').style.width=pct+'%';
-  document.getElementById('feed-total').textContent=total+' oz today';
-  
-  let logHtml='';
-  feeds.slice().reverse().forEach(f=>{
-    logHtml+=`<div class="feed-log-entry"><span>${f.time}</span><span>${f.oz} oz</span></div>`;
-  });
-  document.getElementById('feed-log').innerHTML=logHtml;
+  const f=getFeeds(),tot=f.reduce((s,x)=>s+x.oz,0),pct=Math.min(100,tot/32*100);
+  document.getElementById('ffill').style.width=pct+'%';
+  document.getElementById('ftotal').textContent=tot.toFixed(1)+' oz today';
+  let h='';f.slice().reverse().forEach(x=>{h+=`<div class="flog-entry"><span>${x.time}</span><span>${x.oz} oz</span></div>`});
+  document.getElementById('flog').innerHTML=h;
 }
+function saveDaySummary(){
+  const f=getFeeds(),tot=f.reduce((s,x)=>s+x.oz,0);
+  const c=JSON.parse(localStorage.getItem('chk-'+dk(estNow()))||'{}');
+  const naps=Object.keys(c).filter(k=>c[k]&&getSchedule()[k]&&getSchedule()[k].tp==='nap').length;
+  const key='sum-'+dk(estNow());
+  localStorage.setItem(key,JSON.stringify({oz:tot,feeds:f.length,naps}));
+}
+
+// Hectic toggle
+function toggleHectic(){hectic=!hectic;document.getElementById('hectic-switch').classList.toggle('on',hectic);renderSchedule();renderNow()}
 
 // Tabs
-function showTab(name){
+function showTab(n,el){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
-  event.target.classList.add('active');
-  document.getElementById('tab-'+name).classList.add('active');
+  if(el)el.classList.add('active');
+  document.getElementById('tab-'+n).classList.add('active');
+  if(n==='weekly')renderWeek();
+  if(n==='monthly')renderMonth();
 }
 
 // Alerts
+function saveAlertPref(){localStorage.setItem('alert-min',document.getElementById('alert-min').value)}
+function loadAlertPref(){const v=localStorage.getItem('alert-min');if(v!==null)document.getElementById('alert-min').value=v}
 function checkAlerts(){
-  const now=new Date();
-  const nowMin=now.getHours()*60+now.getMinutes();
-  const checks=JSON.parse(localStorage.getItem('checks-'+now.toDateString())||'{}');
-  
-  SCHEDULE.forEach((item,i)=>{
-    if(checks[i]) return;
-    const itemMin=item.h*60+item.m;
-    const diff=itemMin-nowMin;
-    if(diff>=0 && diff<=5){
-      const banner=document.getElementById('alert-banner');
-      banner.textContent='⏰ '+item.icon+' '+item.label+' — '+item.time;
-      banner.style.display='block';
-      
-      if('Notification' in window && Notification.permission==='granted'){
-        new Notification('Baby Schedule',{body:item.label+' at '+item.time,icon:'👶'});
+  const mins=parseInt(document.getElementById('alert-min').value)||0;
+  if(!mins)return;
+  const now=estNow(),nm=now.getHours()*60+now.getMinutes();
+  let cnm=nm;if(now.getHours()<6)cnm+=1440;
+  const sched=getSchedule();
+  sched.forEach((s,i)=>{
+    const sm=toMin(s.h,s.m);
+    const diff=sm-cnm;
+    const akey=dk(now)+'-'+i;
+    if(diff>0&&diff<=mins&&!alertedSet.has(akey)){
+      alertedSet.add(akey);
+      if('Notification' in window&&Notification.permission==='granted'){
+        new Notification('Baby Schedule ⏰',{body:s.i+' '+s.l+' in '+diff+' min ('+s.t+')',tag:'baby-'+i});
       }
+      try{navigator.vibrate&&navigator.vibrate([200,100,200])}catch(e){}
     }
   });
 }
 
-// Request notification permission
-if('Notification' in window && Notification.permission==='default'){
-  Notification.requestPermission();
+// Weekly view
+function getWeekStart(off){
+  const now=estNow();
+  const d=new Date(now);d.setDate(d.getDate()-d.getDay()+off*7);
+  d.setHours(0,0,0,0);return d;
 }
+function renderWeek(){
+  const ws=getWeekStart(weekOff);
+  const we=new Date(ws);we.setDate(we.getDate()+6);
+  document.getElementById('week-title').textContent=ws.toLocaleDateString([],{month:'short',day:'numeric'})+' - '+we.toLocaleDateString([],{month:'short',day:'numeric'});
+  const today=dk(estNow());
+  let html='';
+  ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d=>{html+=`<div class="cal-head">${d}</div>`});
+  for(let i=0;i<7;i++){
+    const d=new Date(ws);d.setDate(d.getDate()+i);
+    const key=dk(d),isToday=key===today,isFuture=d>estNow();
+    const sum=JSON.parse(localStorage.getItem('sum-'+key)||'{}');
+    html+=`<div class="cal-day ${isToday?'today':''} ${isFuture?'future':''}">
+      <div class="cd-num">${d.getDate()}</div>
+      <div class="cd-oz">${sum.oz?sum.oz.toFixed(0)+'oz':'-'}</div>
+      <div class="cd-naps">${sum.naps?sum.naps+'naps':''}</div>
+    </div>`;
+  }
+  document.getElementById('week-grid').innerHTML=html;
+}
+function changeWeek(d){weekOff+=d;renderWeek()}
+
+// Monthly view
+function renderMonth(){
+  const now=estNow();
+  const mo=new Date(now.getFullYear(),now.getMonth()+monthOff,1);
+  document.getElementById('month-title').textContent=mo.toLocaleDateString([],{month:'long',year:'numeric'});
+  const today=dk(estNow());
+  const firstDay=mo.getDay();
+  const daysInMonth=new Date(mo.getFullYear(),mo.getMonth()+1,0).getDate();
+  let html='';
+  ['S','M','T','W','T','F','S'].forEach(d=>{html+=`<div class="cal-head">${d}</div>`});
+  for(let i=0;i<firstDay;i++){html+=`<div class="cal-day" style="opacity:0"></div>`}
+  for(let d=1;d<=daysInMonth;d++){
+    const dd=new Date(mo.getFullYear(),mo.getMonth(),d);
+    const key=dk(dd),isToday=key===today,isFuture=dd>estNow();
+    const sum=JSON.parse(localStorage.getItem('sum-'+key)||'{}');
+    html+=`<div class="cal-day ${isToday?'today':''} ${isFuture?'future':''}">
+      <div class="cd-num">${d}</div>
+      <div class="cd-oz">${sum.oz?sum.oz.toFixed(0)+'oz':''}</div>
+    </div>`;
+  }
+  document.getElementById('month-grid').innerHTML=html;
+}
+function changeMonth(d){monthOff+=d;renderMonth()}
+
+// Notification permission
+if('Notification' in window&&Notification.permission==='default'){Notification.requestPermission()}
 
 // Init
-calcAge();
-renderSchedule();
-renderFeeds();
-setInterval(()=>{calcAge();renderSchedule();checkAlerts();},30000);
+loadAlertPref();calcAge();renderNow();renderSchedule();renderFeeds();saveDaySummary();
+setInterval(()=>{calcAge();renderNow();renderSchedule();checkAlerts()},15000);
 checkAlerts();
 </script>
 </body>
