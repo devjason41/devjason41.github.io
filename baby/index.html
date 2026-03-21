@@ -889,62 +889,91 @@
   }
 
   .week-grid {
-    display: grid;
-    grid-template-columns: repeat(7, minmax(0, 1fr));
-    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0 16px;
   }
 
   .calendar-day {
-    display: grid;
-    gap: 8px;
-    padding: 12px 8px;
-    border-radius: 20px;
-    min-height: 126px;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    border-radius: 18px;
     transition: transform 0.28s var(--ease-spring), border-color 0.28s ease;
   }
 
   .calendar-day.today {
-    border-color: rgba(255, 122, 132, 0.28);
-    box-shadow: 0 18px 38px rgba(255, 122, 132, 0.18);
+    border-color: rgba(255, 122, 132, 0.3);
+    box-shadow: 0 8px 28px rgba(255, 122, 132, 0.15);
   }
 
   .calendar-day.future {
-    opacity: 0.5;
+    opacity: 0.4;
+  }
+
+  .calendar-day .day-left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 48px;
   }
 
   .calendar-day .weekday {
     color: var(--text-faint);
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 720;
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
 
   .calendar-day .date-num {
-    font-size: 24px;
-    line-height: 1;
+    font-size: 22px;
+    line-height: 1.2;
     font-weight: 760;
     letter-spacing: -0.04em;
   }
 
+  .calendar-day.today .date-num {
+    color: var(--rose);
+  }
+
+  .calendar-day .day-right {
+    flex: 1;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
   .calendar-metric {
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 2px;
+    min-width: 52px;
   }
 
   .calendar-metric .value {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 740;
     color: #ffd6dc;
   }
 
   .calendar-metric .label {
     color: var(--text-faint);
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
+  }
+
+  .calendar-day .day-notes {
+    flex: 1;
+    font-size: 11px;
+    color: var(--text-faint);
+    line-height: 1.4;
+    text-align: right;
   }
 
   .history-card {
@@ -1126,10 +1155,9 @@
     }
 
     .schedule-card {
-      grid-template-columns: auto 1fr auto;
-      grid-template-areas:
-        "time copy check"
-        "emoji copy check";
+      grid-template-columns: auto 1fr auto auto auto;
+      gap: 8px;
+      padding: 12px 14px;
     }
 
     .time-block {
@@ -2211,6 +2239,12 @@
     // Scroll to top of content when switching tabs
     window.scrollTo({ top: 0, behavior: "smooth" });
 
+    // Only show hero/controls on Today tab
+    const heroEl = document.querySelector(".hero-card");
+    const ctrlEl = document.querySelector(".control-grid");
+    if (heroEl) heroEl.style.display = tabName === "today" ? "" : "none";
+    if (ctrlEl) ctrlEl.style.display = tabName === "today" ? "" : "none";
+
     if (tabName === "week") renderWeek();
     if (tabName === "history") renderHistory();
     if (tabName === "feed") renderFeedPanel();
@@ -2235,6 +2269,9 @@
       const snapshot = getDailySnapshot(date);
       const key = dateKey(date);
       const weekday = date.toLocaleDateString("en-US", { weekday: "short" });
+      const monthDay = date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+      const notes = readJSON("notes-" + key, {});
+      const noteCount = Object.keys(notes).length;
       const classes = [
         "calendar-day",
         key === todayKey ? "today" : "",
@@ -2242,15 +2279,24 @@
       ].filter(Boolean).join(" ");
       return `
         <div class="${classes}">
-          <div class="weekday">${weekday}</div>
-          <div class="date-num">${date.getDate()}</div>
-          <div class="calendar-metric">
-            <div class="value">${snapshot.feedCount ? formatOz(snapshot.totalOz) + " oz" : "—"}</div>
-            <div class="label">Ounces</div>
+          <div class="day-left">
+            <div class="weekday">${weekday}</div>
+            <div class="date-num">${date.getDate()}</div>
           </div>
-          <div class="calendar-metric">
-            <div class="value">${snapshot.napCount ? snapshot.napCount : "—"}</div>
-            <div class="label">Naps</div>
+          <div class="day-right">
+            <div class="calendar-metric">
+              <div class="value">${snapshot.feedCount ? formatOz(snapshot.totalOz) + " oz" : "—"}</div>
+              <div class="label">Fed</div>
+            </div>
+            <div class="calendar-metric">
+              <div class="value">${snapshot.feedCount || "—"}</div>
+              <div class="label">Feeds</div>
+            </div>
+            <div class="calendar-metric">
+              <div class="value">${snapshot.napCount || "—"}</div>
+              <div class="label">Naps</div>
+            </div>
+            <div class="day-notes">${noteCount ? "📝 " + noteCount + " note" + (noteCount > 1 ? "s" : "") : ""}</div>
           </div>
         </div>
       `;
