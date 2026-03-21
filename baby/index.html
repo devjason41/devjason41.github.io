@@ -421,24 +421,34 @@ function renderNow(){
   document.getElementById('qoz').textContent=tot.toFixed(0)+' oz';
 }
 
+function getNextTime(arr,i){
+  if(i<arr.length-1)return arr[i+1].h*60+arr[i+1].m;
+  return arr[i].h*60+arr[i].m+90;// last item gets 90 min window
+}
 function renderSched(){
   const n=en(),nm=n.getHours()*60+n.getMinutes(),ds=gD(),ck=JSON.parse(localStorage.getItem('ck-'+dk(n))||'{}');
   let dh='';
   ds.forEach((s,i)=>{
-    const sm=s.h*60+s.m,done=ck['d'+i];
+    const sm=s.h*60+s.m,em=getNextTime(ds,i),done=ck['d'+i];
     let c='';
     if(done)c='past-card';
-    else if(Math.abs(nm-sm)<60&&nm>=sm-15)c='now-card';
-    else if(sm<nm)c='past-card';
+    else if(nm>=sm&&nm<em)c='now-card';
+    else if(nm>=em)c='past-card';
     dh+=`<div class="cd ${c}"><div class="tm">${s.t.replace(' AM','a').replace(' PM','p')}</div><div class="inf"><div class="lb">${s.l}</div><div class="dt">${s.d}</div></div><div class="ic">${s.i}</div><div class="ck ${done?'on':''}" onclick="tC('d${i}')">${done?'✓':''}</div></div>`;
   });
   document.getElementById('day-sch').innerHTML=dh;
   let nh='';
   NS.forEach((s,i)=>{
     const sm=s.h*60+s.m,done=ck['n'+i];
+    // Night schedule: handle wrapping (PM times > AM times)
+    let adjNm=nm,adjSm=sm;
+    if(sm>=18*60)adjSm=sm; else adjSm=sm+24*60;// AM night times wrap
+    if(nm>=18*60)adjNm=nm; else adjNm=nm+24*60;
+    let adjEm=i<NS.length-1?(NS[i+1].h<12?NS[i+1].h*60+NS[i+1].m+24*60:NS[i+1].h*60+NS[i+1].m):adjSm+60;
     let c='night-c';
     if(done)c+=' past-card';
-    else if(Math.abs(nm-sm)<30)c+=' now-card';
+    else if(adjNm>=adjSm&&adjNm<adjEm)c+=' now-card';
+    else if(adjNm>=adjEm)c+=' past-card';
     nh+=`<div class="cd ${c}"><div class="tm">${s.t.replace(' AM','a').replace(' PM','p')}</div><div class="inf"><div class="lb">${s.l}</div><div class="dt">${s.d}</div></div><div class="ic">${s.i}</div><div class="ck ${done?'on':''}" onclick="tC('n${i}')">${done?'✓':''}</div></div>`;
   });
   document.getElementById('night-sch').innerHTML=nh;
