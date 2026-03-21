@@ -1598,35 +1598,40 @@
   };
 
   const DAY_SCHEDULE = [
-    { id: "d0", displayTime: "7:00 AM", minutes: 7 * 60, label: "Wake + Feed", detail: "4-6 oz · diaper change first · lights on", emoji: "🍼", kind: "feed", tone: "day" },
-    { id: "d1", displayTime: "8:30 AM", minutes: 8 * 60 + 30, label: "Nap 1", detail: "Swaddle · dark room · white noise · about 1.5 hours", emoji: "😴", kind: "nap", tone: "day" },
-    { id: "d2", displayTime: "10:00 AM", minutes: 10 * 60, label: "Wake + Feed", detail: "4-6 oz · tummy time · play", emoji: "🍼", kind: "feed", tone: "day" },
-    { id: "d3", displayTime: "11:30 AM", minutes: 11 * 60 + 30, label: "Nap 2", detail: "Dark room · white noise · about 1.5 hours", emoji: "😴", kind: "nap", tone: "day" },
-    { id: "d4", displayTime: "1:00 PM", minutes: 13 * 60, label: "Wake + Feed", detail: "4-6 oz · reset with a diaper change first", emoji: "🍼", kind: "feed", tone: "day" },
-    { id: "d5", displayTime: "2:30 PM", minutes: 14 * 60 + 30, label: "Nap 3", detail: "Dark room · swaddle · about 1.5 hours", emoji: "😴", kind: "nap", tone: "day" },
-    { id: "d6", displayTime: "4:00 PM", minutes: 16 * 60, label: "Wake + Feed", detail: "4-6 oz · upright hold after the bottle", emoji: "🍼", kind: "feed", tone: "day" },
-    { id: "d7", displayTime: "5:15 PM", minutes: 17 * 60 + 15, label: "Catnap", detail: "30-45 minutes · end by 5:45 PM", emoji: "🌤️", kind: "nap", tone: "day" }
+    { id: "d0", displayTime: "7:00 AM", minutes: 7 * 60, label: "Wake + Feed", detail: "4-6 oz · diaper change first · lights on", emoji: "🍼", kind: "feed", tone: "day", alert: true },
+    { id: "d0p", displayTime: "7:30 AM", minutes: 7 * 60 + 30, label: "Play / Wake Window", detail: "Tummy time · play mat · talking · sensory toys · 1-1.5 hr wake window", emoji: "🎯", kind: "play", tone: "day", alert: false },
+    { id: "d1", displayTime: "8:30 AM", minutes: 8 * 60 + 30, label: "Nap 1", detail: "Swaddle · dark room · white noise · about 1.5 hours", emoji: "😴", kind: "nap", tone: "day", alert: true },
+    { id: "d2", displayTime: "10:00 AM", minutes: 10 * 60, label: "Wake + Feed", detail: "4-6 oz · diaper change", emoji: "🍼", kind: "feed", tone: "day", alert: true },
+    { id: "d2p", displayTime: "10:30 AM", minutes: 10 * 60 + 30, label: "Play / Wake Window", detail: "Tummy time · read a book · mirror play · high-contrast cards", emoji: "🎯", kind: "play", tone: "day", alert: false },
+    { id: "d3", displayTime: "11:30 AM", minutes: 11 * 60 + 30, label: "Nap 2", detail: "Dark room · white noise · about 1.5 hours", emoji: "😴", kind: "nap", tone: "day", alert: true },
+    { id: "d4", displayTime: "1:00 PM", minutes: 13 * 60, label: "Wake + Feed", detail: "4-6 oz · diaper change first", emoji: "🍼", kind: "feed", tone: "day", alert: true },
+    { id: "d4p", displayTime: "1:30 PM", minutes: 13 * 60 + 30, label: "Play / Wake Window", detail: "Floor time · kick and play · gentle bouncing · songs", emoji: "🎯", kind: "play", tone: "day", alert: false },
+    { id: "d5", displayTime: "2:30 PM", minutes: 14 * 60 + 30, label: "Nap 3", detail: "Dark room · swaddle · about 1.5 hours", emoji: "😴", kind: "nap", tone: "day", alert: true },
+    { id: "d6", displayTime: "4:00 PM", minutes: 16 * 60, label: "Wake + Feed", detail: "4-6 oz · upright hold after the bottle", emoji: "🍼", kind: "feed", tone: "day", alert: true },
+    { id: "d6p", displayTime: "4:30 PM", minutes: 16 * 60 + 30, label: "Play / Wake Window", detail: "Gentle activity · don't overstimulate before catnap", emoji: "🎯", kind: "play", tone: "day", alert: false },
+    { id: "d7", displayTime: "5:15 PM", minutes: 17 * 60 + 15, label: "Catnap", detail: "30-45 minutes · end by 5:45 PM", emoji: "🌤️", kind: "nap", tone: "day", alert: true }
   ];
 
   const HECTIC_SCHEDULE = [
-    { id: "d0", displayTime: "7:00 AM", minutes: 7 * 60, label: "Wake + Feed", detail: "4-6 oz · diaper first · anchor the day", emoji: "🍼", kind: "feed", tone: "day" },
-    { id: "d1", displayTime: "8:45 AM", minutes: 8 * 60 + 45, label: "Nap 1 (flex)", detail: "Carrier, crib, or stroller. A shorter nap still counts.", emoji: "😴", kind: "nap", tone: "day" },
-    { id: "d2", displayTime: "10:30 AM", minutes: 10 * 60 + 30, label: "Feed", detail: "4-6 oz wherever you are", emoji: "🍼", kind: "feed", tone: "day" },
-    { id: "d3", displayTime: "12:15 PM", minutes: 12 * 60 + 15, label: "Nap 2 (flex)", detail: "Aim for rest, not perfection. Car seat naps count today.", emoji: "😴", kind: "nap", tone: "day" },
-    { id: "d4", displayTime: "1:45 PM", minutes: 13 * 60 + 45, label: "Feed", detail: "4-6 oz · stay steady even if naps were messy", emoji: "🍼", kind: "feed", tone: "day" },
-    { id: "d5", displayTime: "3:15 PM", minutes: 15 * 60 + 15, label: "Nap 3 (flex)", detail: "Short reset nap is enough on a hectic day", emoji: "😴", kind: "nap", tone: "day" },
-    { id: "d6", displayTime: "4:45 PM", minutes: 16 * 60 + 45, label: "Feed", detail: "4-6 oz · protect the evening", emoji: "🍼", kind: "feed", tone: "day" },
-    { id: "d7", displayTime: "5:30 PM", minutes: 17 * 60 + 30, label: "Catnap (optional)", detail: "Quick reset only if the evening needs it", emoji: "🌤️", kind: "nap", tone: "day" }
+    { id: "d0", displayTime: "7:00 AM", minutes: 7 * 60, label: "Wake + Feed", detail: "4-6 oz · diaper first · anchor the day", emoji: "🍼", kind: "feed", tone: "day", alert: true },
+    { id: "d0p", displayTime: "7:30 AM", minutes: 7 * 60 + 30, label: "Play (flex)", detail: "Whatever works — floor, bouncer, carrier, errands", emoji: "🎯", kind: "play", tone: "day", alert: false },
+    { id: "d1", displayTime: "8:45 AM", minutes: 8 * 60 + 45, label: "Nap 1 (flex)", detail: "Carrier, crib, or stroller. A shorter nap still counts.", emoji: "😴", kind: "nap", tone: "day", alert: true },
+    { id: "d2", displayTime: "10:30 AM", minutes: 10 * 60 + 30, label: "Feed", detail: "4-6 oz wherever you are", emoji: "🍼", kind: "feed", tone: "day", alert: true },
+    { id: "d3", displayTime: "12:15 PM", minutes: 12 * 60 + 15, label: "Nap 2 (flex)", detail: "Aim for rest, not perfection. Car seat naps count today.", emoji: "😴", kind: "nap", tone: "day", alert: true },
+    { id: "d4", displayTime: "1:45 PM", minutes: 13 * 60 + 45, label: "Feed", detail: "4-6 oz · stay steady even if naps were messy", emoji: "🍼", kind: "feed", tone: "day", alert: true },
+    { id: "d5", displayTime: "3:15 PM", minutes: 15 * 60 + 15, label: "Nap 3 (flex)", detail: "Short reset nap is enough on a hectic day", emoji: "😴", kind: "nap", tone: "day", alert: true },
+    { id: "d6", displayTime: "4:45 PM", minutes: 16 * 60 + 45, label: "Feed", detail: "4-6 oz · protect the evening", emoji: "🍼", kind: "feed", tone: "day", alert: true },
+    { id: "d7", displayTime: "5:30 PM", minutes: 17 * 60 + 30, label: "Catnap (optional)", detail: "Quick reset only if the evening needs it", emoji: "🌤️", kind: "nap", tone: "day", alert: true }
   ];
 
   const NIGHT_SCHEDULE = [
-    { id: "n0", displayTime: "6:15 PM", minutes: 18 * 60 + 15, label: "Bath + bedtime routine", detail: "Bath, lotion, pajamas, swaddle, calm voices", emoji: "🛁", kind: "routine", tone: "night" },
-    { id: "n1", displayTime: "6:45 PM", minutes: 18 * 60 + 45, label: "Final bottle", detail: "4-6 oz · dim room · quiet and slow", emoji: "🍼", kind: "feed", tone: "night" },
-    { id: "n2", displayTime: "7:00 PM", minutes: 19 * 60, label: "In crib", detail: "Drowsy but awake · sound machine · lights off", emoji: "🌙", kind: "sleep", tone: "night" },
-    { id: "n3", displayTime: "10:00-10:30 PM", minutes: 22 * 60, label: "Optional dream feed", detail: "3-4 oz · do not fully wake baby", emoji: "🌌", kind: "feed", tone: "night" },
-    { id: "n4", displayTime: "Middle of night", minutes: 2 * 60, label: "If baby wakes", detail: "Wait 5 minutes, then 4-5 oz, dark, silent", emoji: "🌘", kind: "feed", tone: "night" },
-    { id: "n5", displayTime: "5:00-6:30 AM", minutes: 5 * 60, label: "Early wake window", detail: "Not morning yet · keep dark · use pacifier", emoji: "🌫️", kind: "settle", tone: "night" },
-    { id: "n6", displayTime: "7:00 AM", minutes: 7 * 60, label: "Morning anchor", detail: "Lights on · diaper · start the day", emoji: "☀️", kind: "wake", tone: "night" }
+    { id: "n0", displayTime: "6:15 PM", minutes: 18 * 60 + 15, label: "Bath + bedtime routine", detail: "Bath, lotion, pajamas, swaddle, calm voices", emoji: "🛁", kind: "routine", tone: "night", alert: true },
+    { id: "n1", displayTime: "6:45 PM", minutes: 18 * 60 + 45, label: "Final bottle", detail: "4-6 oz · dim room · quiet and slow", emoji: "🍼", kind: "feed", tone: "night", alert: true },
+    { id: "n2", displayTime: "7:00 PM", minutes: 19 * 60, label: "In crib", detail: "Drowsy but awake · sound machine · lights off", emoji: "🌙", kind: "sleep", tone: "night", alert: true },
+    { id: "n3", displayTime: "10:00-10:30 PM", minutes: 22 * 60, label: "Optional dream feed", detail: "3-4 oz · do not fully wake baby", emoji: "🌌", kind: "feed", tone: "night", alert: true },
+    { id: "n4", displayTime: "Middle of night", minutes: 2 * 60, label: "If baby wakes", detail: "Wait 5 minutes, then 4-5 oz, dark, silent", emoji: "🌘", kind: "feed", tone: "night", alert: false },
+    { id: "n5", displayTime: "5:00-6:30 AM", minutes: 5 * 60, label: "Early wake window", detail: "Not morning yet · keep dark · use pacifier", emoji: "🌫️", kind: "settle", tone: "night", alert: false },
+    { id: "n6", displayTime: "7:00 AM", minutes: 7 * 60, label: "Morning anchor", detail: "Lights on · diaper · start the day", emoji: "☀️", kind: "wake", tone: "night", alert: true }
   ];
 
   const state = {
@@ -2192,12 +2197,16 @@
     const activeState = getActiveScheduleState(date);
     if (activeState.phase === "day") {
       const dayTimeline = buildDayTimeline();
-      const upcomingDay = dayTimeline.filter(item => item.start > activeState.minute);
-      return [...upcomingDay, { ...NIGHT_SCHEDULE[0], start: NIGHT_PHASE_START }];
+      const upcomingDay = dayTimeline.filter(item => item.start > activeState.minute && item.alert !== false);
+      const firstNight = NIGHT_SCHEDULE[0];
+      if (firstNight.alert !== false) {
+        return [...upcomingDay, { ...firstNight, start: NIGHT_PHASE_START }];
+      }
+      return upcomingDay;
     }
 
     const nightTimeline = buildNightTimeline();
-    return nightTimeline.filter(item => item.start > activeState.normalizedNightMinute);
+    return nightTimeline.filter(item => item.start > activeState.normalizedNightMinute && item.alert !== false);
   }
 
   function checkAlerts() {
