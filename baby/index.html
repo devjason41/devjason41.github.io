@@ -5,149 +5,165 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#1a1a2e">
-<title>Baby Schedule Tracker</title>
+<meta name="apple-mobile-web-app-title" content="BabyTrack">
+<meta name="theme-color" content="#0f0f1a">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>👶</text></svg>">
+<title>BabyTrack</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#1a1a2e;color:#e0e0e0;min-height:100vh;padding-bottom:100px}
-.hdr{background:linear-gradient(135deg,#16213e,#0f3460);padding:18px 16px 14px;text-align:center;position:sticky;top:0;z-index:100}
-.hdr h1{font-size:20px;color:#e94560}
-.hdr .s{font-size:12px;color:#a0a0b0;margin-top:2px}
-.ab{background:#0f3460;margin:0 12px;padding:12px;border-radius:12px;text-align:center;margin-top:10px}
-.ab .age{font-size:26px;font-weight:700;color:#e94560}
-.ab .born{font-size:11px;color:#a0a0b0;margin-top:2px}
-.nb{background:linear-gradient(135deg,#e94560,#c0392b);margin:10px 12px;border-radius:14px;padding:14px 16px;text-align:center}
-.nb .nl{font-size:11px;color:#ffcdd2;text-transform:uppercase;letter-spacing:1px}
-.nb .ne{font-size:17px;font-weight:700;color:#fff;margin-top:3px}
-.nb .ns{font-size:13px;color:#ffcdd2;margin-top:3px}
-/* Hectic toggle - big visible button */
-.hectic-btn{margin:10px 12px;padding:14px;border-radius:14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;border:2px solid #333;background:#16213e;transition:all 0.3s}
-.hectic-btn.on{border-color:#e94560;background:#2a1a2e}
-.hectic-btn .hl{font-size:14px;font-weight:600;color:#fff}
-.hectic-btn .hs{font-size:11px;color:#a0a0b0;margin-top:2px}
-.hectic-btn .pill{padding:6px 16px;border-radius:20px;font-size:12px;font-weight:700;color:#fff;background:#333;transition:all 0.3s}
-.hectic-btn.on .pill{background:#e94560}
-/* Alert row */
-.arow{display:flex;align-items:center;gap:10px;padding:10px 14px;margin:8px 12px;background:#16213e;border-radius:12px}
-.arow select{background:#0f3460;color:#fff;border:1px solid #333;border-radius:8px;padding:6px 10px;font-size:13px;-webkit-appearance:auto}
+:root{--bg:#0f0f1a;--card:#171728;--card2:#1c1c35;--accent:#ff4d6d;--accent2:#ff758f;--accent3:#c9184a;--blue:#4361ee;--blue2:#3a0ca3;--green:#06d6a0;--gold:#ffd60a;--text:#f0f0f5;--text2:#a0a0b8;--text3:#6c6c85;--radius:16px;--shadow:0 4px 20px rgba(0,0,0,0.3)}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:100px;overflow-x:hidden}
+/* Header */
+.hdr{background:linear-gradient(180deg,#1a1a30 0%,var(--bg) 100%);padding:50px 20px 16px;text-align:center;position:relative}
+.hdr h1{font-size:28px;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-0.5px}
+.hdr .sub{font-size:12px;color:var(--text3);margin-top:4px;letter-spacing:0.5px}
+/* Age card */
+.age-card{margin:12px 16px;padding:20px;border-radius:var(--radius);background:linear-gradient(135deg,var(--card),var(--card2));text-align:center;box-shadow:var(--shadow)}
+.age-card .age{font-size:32px;font-weight:800;color:var(--text)}
+.age-card .born{font-size:12px;color:var(--text2);margin-top:4px}
+.age-card .stage{display:inline-block;margin-top:8px;padding:4px 14px;border-radius:20px;background:rgba(255,77,109,0.15);color:var(--accent);font-size:11px;font-weight:600}
+/* Now card */
+.now{margin:12px 16px;padding:18px 20px;border-radius:var(--radius);background:linear-gradient(135deg,var(--accent3),var(--accent));text-align:center;box-shadow:0 4px 24px rgba(255,77,109,0.3)}
+.now .nl{font-size:10px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:2px;font-weight:600}
+.now .ne{font-size:20px;font-weight:700;color:#fff;margin-top:4px}
+.now .ns{font-size:13px;color:rgba(255,255,255,0.7);margin-top:4px}
+/* Controls */
+.ctrl{margin:12px 16px;display:flex;gap:8px}
+.ctrl-item{flex:1;padding:12px;border-radius:14px;background:var(--card);text-align:center;cursor:pointer;transition:all 0.2s;border:1.5px solid transparent}
+.ctrl-item.on{border-color:var(--accent);background:rgba(255,77,109,0.08)}
+.ctrl-item .ci-icon{font-size:20px}
+.ctrl-item .ci-label{font-size:10px;color:var(--text2);margin-top:2px;font-weight:600}
+.ctrl-item .ci-val{font-size:11px;color:var(--accent);font-weight:700;margin-top:1px}
 /* Tabs */
-.tabs{display:flex;margin:10px 12px;border-radius:12px;overflow:hidden}
-.tab{flex:1;padding:10px 2px;text-align:center;font-size:11px;font-weight:600;cursor:pointer;background:#16213e;color:#a0a0b0;transition:all 0.2s}
-.tab.active{background:#e94560;color:#fff}
+.tabs{display:flex;margin:12px 16px;background:var(--card);border-radius:14px;padding:4px;gap:2px}
+.tab{flex:1;padding:10px 4px;text-align:center;font-size:11px;font-weight:600;cursor:pointer;color:var(--text3);border-radius:10px;transition:all 0.2s}
+.tab.active{background:var(--accent);color:#fff}
 .tc{display:none}.tc.active{display:block}
-.st{font-size:13px;font-weight:600;color:#e94560;padding:14px 14px 6px;text-transform:uppercase;letter-spacing:1px}
+/* Section title */
+.st{font-size:12px;font-weight:700;color:var(--text3);padding:16px 18px 8px;text-transform:uppercase;letter-spacing:1.5px}
 /* Schedule cards */
-.sch{padding:0 10px}
-.cd{background:#16213e;border-radius:12px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;border-left:4px solid #0f3460;transition:all 0.3s}
-.cd.now{border-left-color:#e94560;background:#1a2744;box-shadow:0 0 12px rgba(233,69,96,0.3)}
-.cd.past{opacity:0.4;border-left-color:#2ecc71}
-.cd.night-card{background:#0d1b2a;border-left-color:#4a90d9}
-.cd.night-card.now{border-left-color:#e94560;background:#1a2035}
-.cd .tm{font-size:18px;font-weight:700;color:#fff;min-width:58px}
+.sch{padding:0 12px}
+.cd{background:var(--card);border-radius:14px;padding:14px 16px;margin-bottom:8px;display:flex;align-items:center;gap:12px;border-left:4px solid var(--card2);transition:all 0.3s;box-shadow:0 2px 8px rgba(0,0,0,0.15)}
+.cd.now-card{border-left-color:var(--accent);background:linear-gradient(135deg,rgba(255,77,109,0.08),var(--card));box-shadow:0 0 20px rgba(255,77,109,0.15)}
+.cd.past-card{opacity:0.35;border-left-color:var(--green)}
+.cd.night-c{background:linear-gradient(135deg,#0d0d20,#141430);border-left-color:var(--blue)}
+.cd.night-c.now-card{border-left-color:var(--accent)}
+.cd .tm{font-size:17px;font-weight:800;color:var(--text);min-width:56px;font-variant-numeric:tabular-nums}
 .cd .inf{flex:1}
-.cd .inf .lb{font-size:14px;font-weight:600;color:#fff}
-.cd .inf .dt{font-size:11px;color:#a0a0b0;margin-top:2px}
-.cd .ic{font-size:22px}
-.cd .ck{width:30px;height:30px;border-radius:50%;border:2px solid #555;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;flex-shrink:0;transition:all 0.2s}
-.cd .ck:active{transform:scale(0.9)}
-.cd .ck.on{background:#2ecc71;border-color:#2ecc71;color:#fff}
-/* Night section header */
-.night-hdr{background:#0d1b2a;margin:12px 10px 8px;padding:10px 14px;border-radius:10px;font-size:13px;font-weight:600;color:#4a90d9;display:flex;align-items:center;gap:8px}
+.cd .inf .lb{font-size:14px;font-weight:600;color:var(--text)}
+.cd .inf .dt{font-size:11px;color:var(--text2);margin-top:3px;line-height:1.3}
+.cd .ic{font-size:22px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3))}
+.cd .ck{width:30px;height:30px;border-radius:10px;border:2px solid #3a3a55;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;flex-shrink:0;transition:all 0.2s}
+.cd .ck:active{transform:scale(0.85)}
+.cd .ck.on{background:var(--green);border-color:var(--green);color:#fff}
+/* Night divider */
+.night-div{margin:16px 14px 10px;padding:10px 16px;border-radius:12px;background:linear-gradient(135deg,#0d0d20,#1a1a35);font-size:13px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:8px;border:1px solid rgba(67,97,238,0.2)}
 /* Feed tracker */
-.ft{background:#16213e;margin:10px 12px;border-radius:14px;padding:14px}
-.ft h3{font-size:13px;color:#e94560;margin-bottom:10px}
-.fb{background:#0f3460;border-radius:10px;height:22px;overflow:hidden;margin-bottom:6px}
-.ff{background:linear-gradient(90deg,#e94560,#ff6b6b);height:100%;border-radius:10px;transition:width 0.5s}
-.fs{display:flex;justify-content:space-between;font-size:12px;color:#a0a0b0}
-.fe{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #0f3460;font-size:12px}
-.btns{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
-.btn{padding:9px 14px;border-radius:10px;border:none;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s}
-.btn:active{transform:scale(0.95)}
-.bp{background:#e94560;color:#fff}
-.bs{background:#0f3460;color:#e0e0e0}
+.ft{background:var(--card);margin:12px 16px;border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+.ft h3{font-size:14px;color:var(--accent);margin-bottom:12px;font-weight:700}
+.fbar{background:#2a2a40;border-radius:12px;height:10px;overflow:hidden;margin-bottom:8px}
+.ffill{background:linear-gradient(90deg,var(--accent),var(--accent2));height:100%;border-radius:12px;transition:width 0.6s ease}
+.fstats{display:flex;justify-content:space-between;font-size:12px;color:var(--text2)}
+.fe{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #2a2a40;font-size:12px}
+.btns{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
+.btn{padding:10px 16px;border-radius:12px;border:none;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.15s}
+.btn:active{transform:scale(0.93)}
+.bp{background:var(--accent);color:#fff}
+.bs{background:#2a2a40;color:var(--text2)}
 /* Guide cards */
-.gc{background:#16213e;border-radius:12px;padding:14px;margin:0 12px 8px}
-.gc h4{font-size:14px;color:#e94560;margin-bottom:6px}
-.gc p,.gc li{font-size:12px;color:#c0c0d0;line-height:1.6}
-.gc ul{margin:6px 0 0 16px}
+.gc{background:var(--card);border-radius:var(--radius);padding:18px;margin:0 16px 10px;box-shadow:var(--shadow)}
+.gc h4{font-size:14px;color:var(--accent);margin-bottom:8px;font-weight:700}
+.gc p,.gc li{font-size:13px;color:var(--text2);line-height:1.7}
+.gc ul{margin:4px 0 0 18px}
+.gc li b{color:var(--text)}
+.gc li+li{margin-top:2px}
+/* Diaper guide */
+.dg-step{display:flex;gap:12px;margin-bottom:12px}
+.dg-step .dg-num{width:32px;height:32px;border-radius:10px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0}
+.dg-step .dg-text{font-size:13px;color:var(--text2);line-height:1.5}
+.dg-step .dg-text b{color:var(--text)}
 /* Routine steps */
-.rs{background:#16213e;border-radius:12px;padding:12px;margin:0 12px 8px;display:flex;align-items:center;gap:10px}
-.rs .sn{width:28px;height:28px;border-radius:50%;background:#e94560;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0}
-.rs .sx{font-size:13px;line-height:1.4}
+.rs{background:var(--card);border-radius:14px;padding:14px 16px;margin:0 16px 8px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,0.15)}
+.rs .sn{width:30px;height:30px;border-radius:10px;background:linear-gradient(135deg,var(--accent3),var(--accent));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0}
+.rs .sx{font-size:13px;line-height:1.5}
+.rs .sx b{color:var(--text)}
 /* Calendar */
-.cg{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;padding:0 12px;margin-bottom:12px}
-.ch{text-align:center;font-size:10px;color:#a0a0b0;font-weight:600;padding:4px}
-.cy{background:#16213e;border-radius:8px;padding:6px 3px;text-align:center;font-size:11px;min-height:48px}
-.cy .cn{font-weight:700;color:#fff;font-size:12px}
-.cy .co{font-size:10px;color:#e94560;margin-top:1px}
-.cy .cp{font-size:9px;color:#a0a0b0}
-.cy.today{border:2px solid #e94560}
-.cy.future{opacity:0.3}
-.cy.empty{opacity:0;pointer-events:none}
-.cv{display:flex;justify-content:space-between;align-items:center;padding:10px 14px}
-.cv .ct{font-size:15px;font-weight:600;color:#fff}
-.cv button{background:#0f3460;border:none;color:#fff;padding:8px 14px;border-radius:8px;font-size:13px;cursor:pointer}
+.cg{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;padding:0 16px;margin-bottom:12px}
+.ch{text-align:center;font-size:10px;color:var(--text3);font-weight:700;padding:6px}
+.cy{background:var(--card);border-radius:10px;padding:8px 4px;text-align:center;min-height:54px}
+.cy .cn{font-weight:800;color:var(--text);font-size:13px}
+.cy .co{font-size:10px;color:var(--accent);margin-top:2px;font-weight:600}
+.cy .cp{font-size:9px;color:var(--text3)}
+.cy.today{border:2px solid var(--accent);box-shadow:0 0 12px rgba(255,77,109,0.2)}
+.cy.future{opacity:0.25}
+.cy.empty{opacity:0}
+.cv{display:flex;justify-content:space-between;align-items:center;padding:12px 18px}
+.cv .ct{font-size:16px;font-weight:700;color:var(--text)}
+.cv button{background:var(--card);border:none;color:var(--text);padding:8px 16px;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer}
 /* History */
-.hist-card{background:#16213e;border-radius:12px;padding:12px 14px;margin:0 12px 8px}
-.hist-card .hd{font-size:13px;font-weight:600;color:#fff}
-.hist-card .hv{font-size:12px;color:#a0a0b0;margin-top:4px}
-.hist-card .hv span{color:#e94560;font-weight:600}
+.hc{background:var(--card);border-radius:14px;padding:14px 16px;margin:0 16px 8px;box-shadow:var(--shadow)}
+.hc .hd{font-size:14px;font-weight:700;color:var(--text)}
+.hc .hv{font-size:12px;color:var(--text2);margin-top:4px;line-height:1.5}
+.hc .hv span{color:var(--accent);font-weight:700}
 /* Modal */
-.mo{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:300;display:none;align-items:center;justify-content:center}
-.md{background:#16213e;border-radius:16px;padding:20px;margin:20px;max-width:320px;width:100%}
-.md h3{color:#e94560;margin-bottom:12px;font-size:16px}
-.md input{width:100%;padding:10px;border-radius:10px;border:1px solid #333;background:#0f3460;color:#fff;font-size:16px;margin-bottom:10px}
+.mo{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);z-index:300;display:none;align-items:center;justify-content:center;backdrop-filter:blur(8px)}
+.md{background:var(--card);border-radius:20px;padding:24px;margin:20px;max-width:320px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,0.5)}
+.md h3{color:var(--accent);margin-bottom:14px;font-size:18px;font-weight:700}
+.md input{width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid #3a3a55;background:#1a1a30;color:var(--text);font-size:16px;margin-bottom:12px;outline:none;transition:border 0.2s}
+.md input:focus{border-color:var(--accent)}
 </style>
 </head>
 <body>
 
 <div class="hdr">
-  <h1>👶 Baby Schedule</h1>
-  <div class="s">Infant Schedule Tracker · EST</div>
+  <h1>BabyTrack</h1>
+  <div class="sub">INFANT SCHEDULE · EST</div>
 </div>
 
-<div class="ab">
+<div class="age-card">
   <div class="age" id="age"></div>
-  <div class="born">Born January 20, 2026 · <span id="stg"></span></div>
+  <div class="born">Born January 20, 2026</div>
+  <div class="stage" id="stg"></div>
 </div>
 
-<div class="nb" id="nb">
+<div class="now" id="nb">
   <div class="nl" id="nl">Loading</div>
   <div class="ne" id="ne"></div>
   <div class="ns" id="ns"></div>
 </div>
 
-<div class="arow">
-  <span style="font-size:13px">⏰ Alerts</span>
-  <select id="amin" onchange="savAP()">
-    <option value="0">Off</option>
-    <option value="5">5 min</option>
-    <option value="10">10 min</option>
-    <option value="15" selected>15 min</option>
-    <option value="30">30 min</option>
-  </select>
-  <span style="font-size:11px;color:#a0a0b0">before events</span>
-</div>
-
-<div class="hectic-btn" id="hbtn" onclick="togH()">
-  <div><div class="hl">🔄 Hectic Day Mode</div><div class="hs">Flexible timing, nap anywhere, wider windows</div></div>
-  <div class="pill" id="hpill">OFF</div>
+<div class="ctrl">
+  <div class="ctrl-item" id="hbtn" onclick="togH()">
+    <div class="ci-icon">🔄</div>
+    <div class="ci-label">Hectic Mode</div>
+    <div class="ci-val" id="hval">OFF</div>
+  </div>
+  <div class="ctrl-item" onclick="togAlert()">
+    <div class="ci-icon">⏰</div>
+    <div class="ci-label">Alerts</div>
+    <div class="ci-val" id="aval">15 min</div>
+  </div>
+  <div class="ctrl-item">
+    <div class="ci-icon">🍼</div>
+    <div class="ci-label">Today</div>
+    <div class="ci-val" id="qoz">0 oz</div>
+  </div>
 </div>
 
 <div class="tabs">
   <div class="tab active" onclick="sT('today',this)">Today</div>
   <div class="tab" onclick="sT('feed',this)">Feed</div>
   <div class="tab" onclick="sT('night',this)">Night</div>
-  <div class="tab" onclick="sT('sleep',this)">Sleep</div>
+  <div class="tab" onclick="sT('care',this)">Care</div>
   <div class="tab" onclick="sT('week',this)">Week</div>
   <div class="tab" onclick="sT('hist',this)">History</div>
 </div>
 
 <!-- TODAY -->
 <div class="tc active" id="t-today">
-  <div class="st">☀️ Daytime Schedule <span id="clk" style="float:right;color:#fff;font-size:12px"></span></div>
+  <div class="st">☀️ Daytime <span id="clk" style="float:right;color:var(--text);font-size:11px;font-weight:400"></span></div>
   <div class="sch" id="day-sch"></div>
-  <div class="night-hdr">🌙 Nighttime (7:00 PM — 7:00 AM)</div>
+  <div class="night-div">🌙 Nighttime · 7:00 PM — 7:00 AM</div>
   <div class="sch" id="night-sch"></div>
 </div>
 
@@ -155,253 +171,291 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <div class="tc" id="t-feed">
   <div class="ft">
     <h3>🍼 Daily Feeding Tracker</h3>
-    <div class="fb"><div class="ff" id="ffl"></div></div>
-    <div class="fs"><span id="ftt">0 oz</span><span>Goal: 24-32 oz</span></div>
+    <div class="fbar"><div class="ffill" id="ffl"></div></div>
+    <div class="fstats"><span id="ftt">0 oz</span><span>Goal: 24-32 oz</span></div>
     <div class="btns">
-      <button class="btn bp" onclick="lF(3)">+3oz</button>
-      <button class="btn bp" onclick="lF(4)">+4oz</button>
-      <button class="btn bp" onclick="lF(5)">+5oz</button>
-      <button class="btn bp" onclick="lF(6)">+6oz</button>
+      <button class="btn bp" onclick="lF(3)">+3</button>
+      <button class="btn bp" onclick="lF(4)">+4</button>
+      <button class="btn bp" onclick="lF(5)">+5</button>
+      <button class="btn bp" onclick="lF(6)">+6</button>
       <button class="btn bs" onclick="cF()">Custom</button>
       <button class="btn bs" onclick="uF()">Undo</button>
-      <button class="btn bs" onclick="rF()">Reset</button>
     </div>
-    <div id="flg" style="margin-top:10px"></div>
+    <div id="flg" style="margin-top:12px"></div>
   </div>
   <div class="st">Feeding Guide</div>
-  <div class="gc"><h4>Per-Feed Amounts (8-16 weeks)</h4>
-    <ul><li><b>Day feeds:</b> 4-6 oz, every ~3 hours, 5 feeds</li>
-    <li><b>Night feed (if needed):</b> 4-5 oz</li>
-    <li><b>Daily total:</b> 24-32 oz</li>
-    <li>Don't force — watch for fullness cues</li>
-    <li>Pace feeding: tilt bottle slightly, pause every 1-2 oz</li></ul>
+  <div class="gc"><h4>Amounts (8-16 weeks)</h4>
+    <ul><li><b>Day feeds:</b> 4-6 oz every ~3 hours, 5 feeds/day</li>
+    <li><b>Night feed:</b> 4-5 oz (if wakes)</li>
+    <li><b>Daily target:</b> 24-32 oz total</li>
+    <li>Don't force baby to finish — watch for cues</li></ul>
+  </div>
+  <div class="gc"><h4>After Feeding — Do's</h4>
+    <ul><li><b>Burp baby</b> — hold upright on shoulder or sit on lap, gentle pats for 5-10 min</li>
+    <li><b>Keep upright 10-15 min</b> after feed to reduce spit-up</li>
+    <li><b>Gentle activity</b> — tummy time, play mat, talking</li>
+    <li>Watch for spit-up — have burp cloth ready</li></ul>
+  </div>
+  <div class="gc"><h4>After Feeding — Don'ts</h4>
+    <ul><li><b>Don't lay flat immediately</b> — increases reflux/spit-up risk</li>
+    <li><b>Don't bounce or jostle</b> — stomach needs to settle</li>
+    <li><b>Don't put in swing/bouncer right away</b> — the angle can increase gas</li>
+    <li><b>Don't feed to sleep</b> — this is the #1 rule. Feed → wake → sleep, always</li>
+    <li><b>Don't skip the burp</b> — trapped air = fussy baby later</li></ul>
   </div>
 </div>
 
-<!-- NIGHT TAB - Full 7 PM to 7 AM Guide -->
+<!-- NIGHT -->
 <div class="tc" id="t-night">
-  <div class="st">🌙 Nighttime Guide (7:00 PM — 7:00 AM)</div>
-  <div class="gc">
-    <h4>Full Overnight Timeline</h4>
+  <div class="st">🌙 Nighttime Guide · 7 PM — 7 AM</div>
+  <div class="gc"><h4>Overnight Timeline</h4>
     <ul>
-      <li><b>6:15 PM</b> — Start bedtime routine (bath, lotion, pajamas, swaddle)</li>
-      <li><b>6:45 PM</b> — Final bottle: 4-6 oz. Dim room, quiet voice</li>
-      <li><b>7:00 PM</b> — In crib. Drowsy but awake. Sound machine on. Lights OFF. Walk out.</li>
-      <li><b>7:00-7:15 PM</b> — Baby may fuss/cry. Wait full 5 minutes before checking</li>
-      <li><b>7:15 PM check (if needed)</b> — No pick up. Shush, pat, replace pacifier. Walk out. Wait another 5 min.</li>
-      <li><b>7:30 PM</b> — Baby should be asleep. If not, repeat check cycle.</li>
-      <li><b>10:00-11:00 PM</b> — Optional dream feed: 3-4 oz without fully waking baby. Some parents skip this by 8 weeks. If baby sleeps through, don't wake for it.</li>
-      <li><b>1:00-4:00 AM — Night wake:</b></li>
+      <li><b>6:15 PM</b> — Bath, lotion, pajamas, swaddle</li>
+      <li><b>6:45 PM</b> — Final bottle (4-6 oz). Dim room. Quiet voice.</li>
+      <li><b>7:00 PM</b> — In crib. Drowsy but awake. Sound machine. Lights OFF.</li>
+      <li><b>7:00-7:15 PM</b> — May fuss. Wait full 5 minutes.</li>
+      <li><b>7:15 PM</b> — If still crying: brief check. Shush, pat, pacifier. Leave.</li>
+      <li><b>10:00-11:00 PM</b> — Optional dream feed (3-4 oz, don't fully wake). Skip if sleeping through.</li>
+      <li><b>2:00-4:00 AM</b> — If wakes: wait 5 min → then feed 4-5 oz → back down.</li>
+      <li><b>4:30-6:30 AM</b> — Early wake: NOT morning. Keep dark. Pacifier. Wait for 7 AM.</li>
+      <li><b>7:00 AM</b> — Morning. Lights on. Start the day. Wake baby if sleeping.</li>
     </ul>
   </div>
-  <div class="gc">
-    <h4>When Baby Wakes at Night</h4>
+  <div class="gc"><h4>When Baby Wakes at Night</h4>
     <ul>
-      <li><b>Step 1:</b> WAIT. Don't rush in. Give 5 full minutes — baby may resettle alone</li>
-      <li><b>Step 2:</b> If still crying after 5 min — brief check. Shush, pat, pacifier. No lights. No talking. No eye contact. Don't pick up.</li>
-      <li><b>Step 3:</b> If it's been 4+ hours since last feed, offer 4-5 oz. Keep lights OFF. No diaper change unless soiled. No interaction. Pure business.</li>
-      <li><b>Step 4:</b> Feed done → back in crib immediately. Walk out.</li>
-      <li><b>Step 5:</b> If baby cries again after feed, wait 5 min. They're learning to self-settle.</li>
+      <li><b>Step 1: WAIT.</b> Full 5 minutes. Baby may resettle alone.</li>
+      <li><b>Step 2:</b> Brief check — shush, pat, pacifier. No lights. No talking. Don't pick up.</li>
+      <li><b>Step 3:</b> If 4+ hours since last feed, offer 4-5 oz. Lights OFF. No interaction.</li>
+      <li><b>Step 4:</b> Feed done → crib immediately. Walk out.</li>
+      <li><b>Step 5:</b> If cries again, wait 5 min. They're learning.</li>
     </ul>
   </div>
-  <div class="gc">
-    <h4>Night Feed Rules</h4>
+  <div class="gc"><h4>Night Feed Rules</h4>
     <ul>
-      <li>Lights stay OFF — use dim nightlight only if you must see</li>
-      <li>No talking, no cooing, no smiling, no eye contact</li>
-      <li>No diaper change unless soiled or soaked through</li>
-      <li>Feed 4-5 oz max — don't overfeed at night</li>
+      <li>Lights stay OFF (dim nightlight only if needed)</li>
+      <li>No talking, cooing, smiling, or eye contact</li>
+      <li>No diaper change unless soiled or soaked</li>
+      <li>4-5 oz max — don't overfeed at night</li>
       <li>Total time out of crib: under 20 minutes</li>
       <li>Goal by 12-16 weeks: zero night feeds</li>
     </ul>
   </div>
-  <div class="gc">
-    <h4>Common Night Wake Windows</h4>
+  <div class="gc"><h4>Common Wake Windows</h4>
     <ul>
-      <li><b>10-11 PM wake:</b> Likely hunger if no dream feed. Offer 3-4 oz.</li>
-      <li><b>1-2 AM wake:</b> Could be hunger or habit. If last feed was 7 PM, offer feed. If dream feed was at 10 PM, wait 5 min first.</li>
-      <li><b>3-4 AM wake:</b> Most common single night feed time. Offer 4-5 oz, back down.</li>
-      <li><b>4:30-5:30 AM wake:</b> This is NOT morning. Keep dark. Offer pacifier. Do NOT start the day. Treat as nighttime until 7 AM.</li>
-      <li><b>6:00-6:30 AM wake:</b> Still not morning. Try to get baby back to sleep or at minimum keep in crib quietly until 7:00 AM.</li>
-      <li><b>7:00 AM:</b> THIS is morning. Lights on, voice up, start the day even if baby wants more sleep. The 7 AM anchor sets everything.</li>
+      <li><b>10-11 PM:</b> Likely hunger if no dream feed</li>
+      <li><b>1-2 AM:</b> Hunger or habit. If last feed was 7 PM, feed. If dream feed was 10 PM, wait.</li>
+      <li><b>3-4 AM:</b> Most common single night feed time</li>
+      <li><b>4:30-5:30 AM:</b> NOT morning. Dark + pacifier. Wait for 7 AM.</li>
+      <li><b>6:00-6:30 AM:</b> Still not morning. Keep in crib until 7:00.</li>
     </ul>
   </div>
-  <div class="gc">
-    <h4>Troubleshooting Night Sleep</h4>
+  <div class="gc"><h4>Troubleshooting</h4>
     <ul>
-      <li><b>Waking every 2 hours?</b> Feed-to-sleep association. Baby needs to learn to fall asleep without the bottle. Put down drowsy, not asleep.</li>
-      <li><b>Won't go back down after feed?</b> You're making it too interesting. Darker, quieter, less interaction.</li>
-      <li><b>Fighting bedtime?</b> Overtired. Move bedtime 15-30 min earlier.</li>
-      <li><b>Waking at same time every night but not hungry?</b> Habitual wake. Don't feed — just check, pat, pacifier, leave.</li>
-      <li><b>Wide awake at 3 AM, happy?</b> Don't engage. Dark room, boring. They'll learn night is for sleeping.</li>
-    </ul>
-  </div>
-  <div class="gc">
-    <h4>Safe Sleep (Every Night)</h4>
-    <ul>
-      <li>Always on back</li>
-      <li>Firm flat mattress, nothing else in crib</li>
-      <li>No blankets, pillows, toys, bumpers</li>
-      <li>Room temp 68-72°F</li>
-      <li>Swaddle snug at chest, loose at hips</li>
-      <li>Sound machine all night</li>
+      <li><b>Waking every 2 hours?</b> Feed-to-sleep association. Must learn to fall asleep without bottle.</li>
+      <li><b>Won't go back down?</b> Too stimulating. Darker, quieter, less interaction.</li>
+      <li><b>Fighting bedtime?</b> Likely overtired. Move bedtime 15-30 min earlier.</li>
+      <li><b>Same time every night but not hungry?</b> Habitual. Don't feed — check, pat, leave.</li>
+      <li><b>Happy at 3 AM?</b> Don't engage. Dark, boring. They'll learn.</li>
     </ul>
   </div>
 </div>
 
-<!-- SLEEP -->
-<div class="tc" id="t-sleep">
-  <div class="st">☀️ Daytime Sleep Guide</div>
-  <div class="gc"><h4>Nap Rules (8-16 Weeks)</h4>
-    <ul><li><b>4-5 naps/day</b> (3 long + 1 catnap)</li>
-    <li><b>Wake windows:</b> 1-2 hours max</li>
-    <li>Swaddle for every nap (arms in)</li>
-    <li>Dark room + white noise</li>
-    <li>Put down drowsy but awake</li>
-    <li>If crying, wait 5 min before checking</li>
-    <li>Check = shush, pat, pacifier. No picking up.</li>
-    <li>Cap naps at 2 hours to protect nighttime sleep</li>
-    <li>Last nap ends by 5:30-5:45 PM</li></ul>
+<!-- CARE TAB - Diaper + Sleep Technique -->
+<div class="tc" id="t-care">
+  <div class="st">🧷 Diaper Guide</div>
+  <div class="gc">
+    <h4>When to Change — Before or After Feeding?</h4>
+    <p style="margin-bottom:12px"><b>Daytime: Change BEFORE feeding.</b> This wakes baby up enough to take a full feed. Changing after can disturb a sleepy baby and mess up the feed-wake-sleep cycle.</p>
+    <p style="margin-bottom:12px"><b>Nighttime: Change BEFORE feeding (only if needed).</b> Check diaper first. If clean, skip it entirely. If soiled, change quickly in dim light, then feed. Never change after the night feed — it wakes baby up too much.</p>
+    <h4 style="margin-top:16px">Daytime Sequence</h4>
+    <div class="dg-step"><div class="dg-num">1</div><div class="dg-text"><b>Diaper change first</b> — wakes baby, fresh start</div></div>
+    <div class="dg-step"><div class="dg-num">2</div><div class="dg-text"><b>Feed</b> — full bottle, baby is alert</div></div>
+    <div class="dg-step"><div class="dg-num">3</div><div class="dg-text"><b>Burp</b> — 5-10 min upright</div></div>
+    <div class="dg-step"><div class="dg-num">4</div><div class="dg-text"><b>Wake time</b> — play, tummy time, interaction</div></div>
+    <div class="dg-step"><div class="dg-num">5</div><div class="dg-text"><b>Nap</b> — watch for sleepy cues within 1-2 hrs</div></div>
+    <h4 style="margin-top:16px">Nighttime Sequence</h4>
+    <div class="dg-step"><div class="dg-num">1</div><div class="dg-text"><b>Check diaper</b> — change only if soiled. Dim light. Silent.</div></div>
+    <div class="dg-step"><div class="dg-num">2</div><div class="dg-text"><b>Feed</b> — 4-5 oz. Dark, silent, no eye contact.</div></div>
+    <div class="dg-step"><div class="dg-num">3</div><div class="dg-text"><b>Quick burp</b> — 2-3 min max. Don't fully wake.</div></div>
+    <div class="dg-step"><div class="dg-num">4</div><div class="dg-text"><b>Back in crib</b> — immediately. Walk out.</div></div>
   </div>
-  <div class="gc"><h4>Sleepy Cues — Act Fast</h4>
-    <ul><li>Yawning</li><li>Eye rubbing</li><li>Looking away</li><li>Fussing after being happy</li><li>Jerky movements</li>
-    <li><b>Overtired = harder to sleep. Don't miss the window.</b></li></ul>
+
+  <div class="st">😴 Sleep Technique Guide</div>
+  <div class="gc">
+    <h4>Putting Baby Down</h4>
+    <ul>
+      <li><b>Drowsy but awake</b> — this is the most important skill to teach. Baby must learn to fall asleep in the crib, not in your arms.</li>
+      <li>Eyes should be heavy, body relaxed, but not fully asleep</li>
+      <li>Place in crib on back. Hand on chest for a moment. Then remove hand and step back.</li>
+      <li>If baby fusses: wait 5 full minutes before checking</li>
+    </ul>
   </div>
-  <div class="st">🌙 Night Sleep Summary</div>
-  <div class="gc"><h4>Quick Night Rules</h4>
-    <ul><li>Bedtime: 7:00-7:30 PM — same every night</li>
-    <li>Full routine before bed (see Night tab)</li>
-    <li>Completely dark room, white noise all night</li>
-    <li>Night feed: lights off, silent, no eye contact</li>
-    <li>Goal: one feed max, working to zero</li>
-    <li>7 AM is the anchor — wake baby even if sleeping</li></ul>
+  <div class="gc">
+    <h4>Do's After Feeding (Before Sleep)</h4>
+    <ul>
+      <li><b>Burp thoroughly</b> — trapped gas wakes baby up</li>
+      <li><b>Hold upright 10-15 min</b> — prevents reflux</li>
+      <li><b>Swaddle snugly</b> — arms in, snug chest, loose hips</li>
+      <li><b>Dim the lights gradually</b> during feed if it's near nap/bedtime</li>
+      <li><b>Sound machine on</b> before placing in crib</li>
+      <li><b>Room check:</b> 68-72°F, blackout dark, nothing in crib</li>
+    </ul>
+  </div>
+  <div class="gc">
+    <h4>Don'ts After Feeding (Before Sleep)</h4>
+    <ul>
+      <li>❌ <b>Don't let baby fall asleep on the bottle</b> — remove before fully asleep</li>
+      <li>❌ <b>Don't lay flat immediately</b> — 10-15 min upright first</li>
+      <li>❌ <b>Don't rock/bounce to sleep</b> — creates dependency</li>
+      <li>❌ <b>Don't use swing/bouncer as sleep surface</b></li>
+      <li>❌ <b>Don't rush to the crib</b> — burp first, upright hold, then crib</li>
+      <li>❌ <b>Don't skip the swaddle</b> — startle reflex wakes them</li>
+    </ul>
+  </div>
+  <div class="gc">
+    <h4>If Baby Won't Sleep After Feed</h4>
+    <ul>
+      <li>Check: Was baby burped enough? Try more burping.</li>
+      <li>Check: Is baby overtired? Watch wake windows (1-2 hrs max).</li>
+      <li>Check: Is baby undertired? Not enough activity during wake time.</li>
+      <li>Check: Room too bright? Any light leaks?</li>
+      <li>Check: Too warm/cold? Feel chest, not hands.</li>
+      <li>Try: Re-swaddle tighter. Replace pacifier. Pat rhythmically on side.</li>
+      <li>Last resort: Pick up, calm down, put back down drowsy. Repeat.</li>
+    </ul>
+  </div>
+  <div class="gc">
+    <h4>Safe Sleep Reminders</h4>
+    <ul>
+      <li>Always on back</li>
+      <li>Firm, flat mattress — nothing else in crib</li>
+      <li>No blankets, pillows, toys, bumpers, positioners</li>
+      <li>Swaddle until rolling (then transition to sleep sack)</li>
+      <li>Room temp 68-72°F</li>
+      <li>Fan in room reduces SIDS risk</li>
+    </ul>
   </div>
 </div>
 
 <!-- WEEKLY -->
 <div class="tc" id="t-week">
   <div class="st">📅 Weekly Overview</div>
-  <div class="cv"><button onclick="cW(-1)">← Prev</button><div class="ct" id="wt"></div><button onclick="cW(1)">Next →</button></div>
+  <div class="cv"><button onclick="cW(-1)">←</button><div class="ct" id="wt"></div><button onclick="cW(1)">→</button></div>
   <div class="cg" id="wg"></div>
 </div>
 
 <!-- HISTORY -->
 <div class="tc" id="t-hist">
-  <div class="st">📊 History (Last 14 Days)</div>
-  <div id="hist-list"></div>
+  <div class="st">📊 Last 14 Days</div>
+  <div id="hl"></div>
 </div>
 
 <!-- Modal -->
-<div class="mo" id="fm"><div class="md"><h3>Custom Feed</h3><input type="number" id="coz" placeholder="Ounces" step="0.5" min="0.5" max="12"><div class="btns"><button class="btn bp" onclick="sCF()">Log</button><button class="btn bs" onclick="xCF()">Cancel</button></div></div></div>
+<div class="mo" id="fm"><div class="md"><h3>Custom Amount</h3><input type="number" id="coz" placeholder="Ounces (e.g. 4.5)" step="0.5" min="0.5" max="12"><div class="btns"><button class="btn bp" onclick="sCF()">Log</button><button class="btn bs" onclick="xCF()">Cancel</button></div></div></div>
 
 <script>
 const BD=new Date('2026-01-20T00:00:00');
-let hec=false,wOff=0,alerted=new Set();
+let hec=false,wOff=0,alerted=new Set(),alertMins=[0,5,10,15,30],alertIdx=3;
 
-const DAY_SCHED=[
-  {t:'7:00 AM',h:7,m:0,l:'Wake + Feed',d:'4-6 oz. Diaper change. Lights on.',i:'🍼',tp:'feed'},
-  {t:'8:15 AM',h:8,m:15,l:'Nap 1',d:'Swaddle, dark, white noise. ~1.5 hrs.',i:'😴',tp:'nap'},
-  {t:'10:00 AM',h:10,m:0,l:'Wake + Feed',d:'4-6 oz. Play time, tummy time.',i:'🍼',tp:'feed'},
-  {t:'11:15 AM',h:11,m:15,l:'Nap 2',d:'Swaddle, dark, white noise. ~1.5 hrs.',i:'😴',tp:'nap'},
-  {t:'1:00 PM',h:13,m:0,l:'Wake + Feed',d:'4-6 oz. Interaction time.',i:'🍼',tp:'feed'},
-  {t:'2:15 PM',h:14,m:15,l:'Nap 3',d:'Swaddle, dark, white noise. ~1.5 hrs.',i:'😴',tp:'nap'},
-  {t:'4:00 PM',h:16,m:0,l:'Wake + Feed',d:'4-6 oz. Activity time.',i:'🍼',tp:'feed'},
-  {t:'5:00 PM',h:17,m:0,l:'Catnap',d:'30-45 min max. End by 5:45.',i:'😴',tp:'nap'}
+const DS=[
+  {t:'7:00 AM',h:7,m:0,l:'Wake + Feed',d:'4-6 oz · Diaper first · Lights on',i:'🍼',tp:'feed'},
+  {t:'8:15 AM',h:8,m:15,l:'Nap 1',d:'Swaddle · Dark · White noise · ~1.5 hrs',i:'😴',tp:'nap'},
+  {t:'10:00 AM',h:10,m:0,l:'Wake + Feed',d:'4-6 oz · Tummy time · Play',i:'🍼',tp:'feed'},
+  {t:'11:15 AM',h:11,m:15,l:'Nap 2',d:'Swaddle · Dark · White noise · ~1.5 hrs',i:'😴',tp:'nap'},
+  {t:'1:00 PM',h:13,m:0,l:'Wake + Feed',d:'4-6 oz · Sensory play',i:'🍼',tp:'feed'},
+  {t:'2:15 PM',h:14,m:15,l:'Nap 3',d:'Swaddle · Dark · White noise · ~1.5 hrs',i:'😴',tp:'nap'},
+  {t:'4:00 PM',h:16,m:0,l:'Wake + Feed',d:'4-6 oz · Activity time',i:'🍼',tp:'feed'},
+  {t:'5:00 PM',h:17,m:0,l:'Catnap',d:'30-45 min · End by 5:45',i:'😴',tp:'nap'}
 ];
-const NIGHT_SCHED=[
-  {t:'6:15 PM',h:18,m:15,l:'Bath + Bedtime Routine',d:'Bath → lotion → PJs → swaddle. See Night tab.',i:'🛁',tp:'routine',night:true},
-  {t:'6:45 PM',h:18,m:45,l:'Final Bottle',d:'4-6 oz. Dim room, quiet. Keep baby awake.',i:'🍼',tp:'feed',night:true},
-  {t:'7:00 PM',h:19,m:0,l:'In Crib — Lights Off',d:'Drowsy but awake. Sound machine on. Walk out.',i:'🌙',tp:'sleep',night:true},
-  {t:'10:30 PM',h:22,m:30,l:'Dream Feed (optional)',d:'3-4 oz without fully waking. Skip if sleeping through.',i:'🌑',tp:'feed',night:true},
-  {t:'2:00-4:00 AM',h:3,m:0,l:'Night Feed (if wakes)',d:'Wait 5 min first. Then 4-5 oz. Dark, silent, back down.',i:'🌑',tp:'feed',night:true},
-  {t:'5:00-6:30 AM',h:5,m:30,l:'Early Wake — NOT Morning',d:'Keep dark. Pacifier. Do NOT start day. Wait for 7 AM.',i:'🌑',tp:'sleep',night:true},
-  {t:'7:00 AM',h:7,m:0,l:'Morning — Start Day',d:'Lights on! Voice up. This is the anchor. Wake baby if sleeping.',i:'☀️',tp:'wake',night:true}
+const NS=[
+  {t:'6:15 PM',h:18,m:15,l:'Bath + Routine',d:'Bath → lotion → PJs → swaddle',i:'🛁',tp:'routine'},
+  {t:'6:45 PM',h:18,m:45,l:'Final Bottle',d:'4-6 oz · Dim · Quiet · Keep awake',i:'🍼',tp:'feed'},
+  {t:'7:00 PM',h:19,m:0,l:'Crib · Lights Off',d:'Drowsy but awake · Sound machine · Walk out',i:'🌙',tp:'sleep'},
+  {t:'10:30 PM',h:22,m:30,l:'Dream Feed',d:'Optional 3-4 oz · Don\'t fully wake',i:'🌑',tp:'feed'},
+  {t:'~3:00 AM',h:3,m:0,l:'Night Feed',d:'If wakes · Wait 5 min · 4-5 oz · Dark · Silent',i:'🌑',tp:'feed'},
+  {t:'5-6 AM',h:5,m:30,l:'Early Wake',d:'NOT morning · Dark · Pacifier · Wait for 7 AM',i:'🌑',tp:'sleep'},
+  {t:'7:00 AM',h:7,m:0,l:'Morning',d:'Lights ON · Start the day · Wake baby if sleeping',i:'☀️',tp:'wake'}
 ];
-const HEC_DAY=[
-  {t:'7:00 AM',h:7,m:0,l:'Wake + Feed',d:'4-6 oz. Start day.',i:'🍼',tp:'feed'},
-  {t:'8:30 AM',h:8,m:30,l:'Nap (flexible)',d:'Car, stroller, carrier — any nap counts.',i:'😴',tp:'nap'},
-  {t:'10:30 AM',h:10,m:30,l:'Feed',d:'4-6 oz wherever you are.',i:'🍼',tp:'feed'},
-  {t:'12:00 PM',h:12,m:0,l:'Nap (flexible)',d:'Any safe sleep surface.',i:'😴',tp:'nap'},
-  {t:'1:30 PM',h:13,m:30,l:'Feed',d:'4-6 oz.',i:'🍼',tp:'feed'},
-  {t:'3:00 PM',h:15,m:0,l:'Nap (flexible)',d:'Even 30 min counts.',i:'😴',tp:'nap'},
-  {t:'4:30 PM',h:16,m:30,l:'Feed',d:'4-6 oz.',i:'🍼',tp:'feed'}
+const HD=[
+  {t:'7:00 AM',h:7,m:0,l:'Wake + Feed',d:'4-6 oz',i:'🍼',tp:'feed'},
+  {t:'8:30 AM',h:8,m:30,l:'Nap (flex)',d:'Car · Stroller · Carrier — anything counts',i:'😴',tp:'nap'},
+  {t:'10:30 AM',h:10,m:30,l:'Feed',d:'4-6 oz',i:'🍼',tp:'feed'},
+  {t:'12:00 PM',h:12,m:0,l:'Nap (flex)',d:'Any safe surface',i:'😴',tp:'nap'},
+  {t:'1:30 PM',h:13,m:30,l:'Feed',d:'4-6 oz',i:'🍼',tp:'feed'},
+  {t:'3:00 PM',h:15,m:0,l:'Nap (flex)',d:'Even 30 min counts',i:'😴',tp:'nap'},
+  {t:'4:30 PM',h:16,m:30,l:'Feed',d:'4-6 oz',i:'🍼',tp:'feed'}
 ];
 
-function gDS(){return hec?HEC_DAY:DAY_SCHED}
+function gD(){return hec?HD:DS}
 function dk(d){return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}
 function en(){return new Date(new Date().toLocaleString('en-US',{timeZone:'America/New_York'}))}
-function tm(h,m){let v=h*60+m;return v}
 
 function calcAge(){
   const n=en(),d=n-BD,w=Math.floor(d/(7*864e5)),dy=Math.floor((d%(7*864e5))/864e5);
   document.getElementById('age').textContent=w+' weeks, '+dy+' days';
   let s=w<8?'0-8 Weeks':w<16?'8-16 Weeks':w<24?'16-24 Weeks':'6+ Months';
-  document.getElementById('stg').textContent='Stage: '+s;
+  document.getElementById('stg').textContent=s;
 }
 
 function renderNow(){
   const n=en(),nm=n.getHours()*60+n.getMinutes();
   document.getElementById('clk').textContent=n.toLocaleTimeString([],{hour:'numeric',minute:'2-digit',hour12:true});
-  const all=[...gDS(),...NIGHT_SCHED];
+  const all=[...gD(),...NS];
   let cur=null,nxt=null;
-  for(let i=0;i<all.length;i++){
-    const s=all[i],sm=tm(s.h,s.m);
-    const em=i<all.length-1?tm(all[i+1].h,all[i+1].m):sm+60;
-    if(nm>=sm&&nm<em)cur=s;
-    if(!nxt&&sm>nm)nxt=s;
-  }
-  if(cur){
+  for(const s of all){if(s.h*60+s.m<=nm)cur=s;if(!nxt&&s.h*60+s.m>nm)nxt=s;}
+  if(nm>=19*60||nm<7*60){
+    document.getElementById('nl').textContent='NIGHTTIME';
+    document.getElementById('ne').textContent='🌙 Baby should be sleeping';
+    document.getElementById('ns').textContent=nm>=19*60?'Night feed if wakes · Next: 7:00 AM':'Next: 7:00 AM wake';
+  }else if(cur){
     document.getElementById('nl').textContent='RIGHT NOW';
     document.getElementById('ne').textContent=cur.i+' '+cur.l;
-    document.getElementById('ns').textContent=nxt?'Next: '+nxt.l+' at '+nxt.t:'';
+    document.getElementById('ns').textContent=nxt?'Next → '+nxt.l+' at '+nxt.t:'';
   }else if(nxt){
     document.getElementById('nl').textContent='COMING UP';
     document.getElementById('ne').textContent=nxt.i+' '+nxt.l;
     document.getElementById('ns').textContent='at '+nxt.t;
-  }else if(nm>=19*60||nm<7*60){
-    document.getElementById('nl').textContent='NIGHTTIME';
-    document.getElementById('ne').textContent='🌙 Baby should be sleeping';
-    document.getElementById('ns').textContent='Next: 7:00 AM wake';
   }
+  // Quick oz display
+  const f=gF(),tot=f.reduce((s,x)=>s+x.oz,0);
+  document.getElementById('qoz').textContent=tot.toFixed(0)+' oz';
 }
 
 function renderSched(){
-  const n=en(),nm=n.getHours()*60+n.getMinutes();
-  const ds=gDS(),ck=JSON.parse(localStorage.getItem('ck-'+dk(n))||'{}');
+  const n=en(),nm=n.getHours()*60+n.getMinutes(),ds=gD(),ck=JSON.parse(localStorage.getItem('ck-'+dk(n))||'{}');
   let dh='';
   ds.forEach((s,i)=>{
-    const sm=tm(s.h,s.m),done=ck['d'+i];
-    let c=sm<=nm&&Math.abs(nm-sm)<90?'now':sm<nm?'past':'';
-    if(done)c='past';
-    dh+=`<div class="cd ${c}"><div class="tm">${s.t.replace(' AM','a').replace(' PM','p')}</div><div class="inf"><div class="lb">${s.l}</div><div class="dt">${s.d}</div></div><div class="ic">${s.i}</div><div class="ck ${done?'on':''}" onclick="tCk('d${i}')">${done?'✓':''}</div></div>`;
+    const sm=s.h*60+s.m,done=ck['d'+i];
+    let c='';
+    if(done)c='past-card';
+    else if(Math.abs(nm-sm)<60&&nm>=sm-15)c='now-card';
+    else if(sm<nm)c='past-card';
+    dh+=`<div class="cd ${c}"><div class="tm">${s.t.replace(' AM','a').replace(' PM','p')}</div><div class="inf"><div class="lb">${s.l}</div><div class="dt">${s.d}</div></div><div class="ic">${s.i}</div><div class="ck ${done?'on':''}" onclick="tC('d${i}')">${done?'✓':''}</div></div>`;
   });
   document.getElementById('day-sch').innerHTML=dh;
-
   let nh='';
-  NIGHT_SCHED.forEach((s,i)=>{
-    const sm=tm(s.h,s.m),done=ck['n'+i];
-    let c='night-card';
-    if(nm>=sm-30&&nm<=sm+30)c+=' now';
-    if(done)c+=' past';
-    nh+=`<div class="cd ${c}"><div class="tm">${s.t.replace(' AM','a').replace(' PM','p')}</div><div class="inf"><div class="lb">${s.l}</div><div class="dt">${s.d}</div></div><div class="ic">${s.i}</div><div class="ck ${done?'on':''}" onclick="tCk('n${i}')">${done?'✓':''}</div></div>`;
+  NS.forEach((s,i)=>{
+    const sm=s.h*60+s.m,done=ck['n'+i];
+    let c='night-c';
+    if(done)c+=' past-card';
+    else if(Math.abs(nm-sm)<30)c+=' now-card';
+    nh+=`<div class="cd ${c}"><div class="tm">${s.t.replace(' AM','a').replace(' PM','p')}</div><div class="inf"><div class="lb">${s.l}</div><div class="dt">${s.d}</div></div><div class="ic">${s.i}</div><div class="ck ${done?'on':''}" onclick="tC('n${i}')">${done?'✓':''}</div></div>`;
   });
   document.getElementById('night-sch').innerHTML=nh;
 }
+function tC(k){const n=en(),key='ck-'+dk(n),c=JSON.parse(localStorage.getItem(key)||'{}');c[k]=!c[k];localStorage.setItem(key,JSON.stringify(c));renderSched();savS()}
 
-function tCk(k){const n=en(),key='ck-'+dk(n),c=JSON.parse(localStorage.getItem(key)||'{}');c[k]=!c[k];localStorage.setItem(key,JSON.stringify(c));renderSched();savSum()}
+function togH(){hec=!hec;const b=document.getElementById('hbtn');b.classList.toggle('on',hec);document.getElementById('hval').textContent=hec?'ON':'OFF';renderSched();renderNow()}
+function togAlert(){alertIdx=(alertIdx+1)%alertMins.length;const v=alertMins[alertIdx];localStorage.setItem('amin',v);document.getElementById('aval').textContent=v?v+' min':'OFF'}
+function ldA(){const v=localStorage.getItem('amin');if(v!==null){const idx=alertMins.indexOf(parseInt(v));if(idx>=0)alertIdx=idx;}document.getElementById('aval').textContent=alertMins[alertIdx]?alertMins[alertIdx]+' min':'OFF'}
 
-// Hectic
-function togH(){hec=!hec;const b=document.getElementById('hbtn'),p=document.getElementById('hpill');b.classList.toggle('on',hec);p.textContent=hec?'ON':'OFF';renderSched();renderNow()}
-
-// Tabs
 function sT(n,el){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.tc').forEach(t=>t.classList.remove('active'));if(el)el.classList.add('active');document.getElementById('t-'+n).classList.add('active');if(n==='week')rW();if(n==='hist')rH()}
 
 // Feeds
 function gF(){return JSON.parse(localStorage.getItem('fd-'+dk(en()))||'[]')}
 function sF(f){localStorage.setItem('fd-'+dk(en()),JSON.stringify(f))}
-function lF(oz){const f=gF();f.push({oz,time:en().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})});sF(f);rFd();savSum()}
-function uF(){const f=gF();if(f.length){f.pop();sF(f);rFd();savSum()}}
-function rF(){if(confirm('Reset?')){localStorage.removeItem('fd-'+dk(en()));rFd()}}
+function lF(oz){const f=gF();f.push({oz,time:en().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})});sF(f);rFd();savS();renderNow()}
+function uF(){const f=gF();if(f.length){f.pop();sF(f);rFd();savS();renderNow()}}
 function cF(){document.getElementById('fm').style.display='flex';document.getElementById('coz').focus()}
 function xCF(){document.getElementById('fm').style.display='none'}
 function sCF(){const oz=parseFloat(document.getElementById('coz').value);if(oz>0){lF(oz);xCF();document.getElementById('coz').value=''}}
@@ -412,25 +466,25 @@ function rFd(){
   let h='';f.slice().reverse().forEach(x=>{h+=`<div class="fe"><span>${x.time}</span><span>${x.oz} oz</span></div>`});
   document.getElementById('flg').innerHTML=h;
 }
-function savSum(){
+function savS(){
   const f=gF(),tot=f.reduce((s,x)=>s+x.oz,0);
   const ck=JSON.parse(localStorage.getItem('ck-'+dk(en()))||'{}');
-  const naps=Object.keys(ck).filter(k=>ck[k]&&k.startsWith('d')&&(gDS()[parseInt(k.slice(1))]||{}).tp==='nap').length;
+  let naps=0;const ds=gD();Object.keys(ck).forEach(k=>{if(ck[k]&&k.startsWith('d')){const idx=parseInt(k.slice(1));if(ds[idx]&&ds[idx].tp==='nap')naps++;}});
   localStorage.setItem('sum-'+dk(en()),JSON.stringify({oz:tot,feeds:f.length,naps,ts:Date.now()}));
 }
 
 // Weekly
-function gWS(off){const n=en(),d=new Date(n);d.setDate(d.getDate()-d.getDay()+off*7);d.setHours(0,0,0,0);return d}
 function rW(){
-  const ws=gWS(wOff),we=new Date(ws);we.setDate(we.getDate()+6);
-  document.getElementById('wt').textContent=ws.toLocaleDateString([],{month:'short',day:'numeric'})+' - '+we.toLocaleDateString([],{month:'short',day:'numeric'});
+  const n=en(),ws=new Date(n);ws.setDate(ws.getDate()-ws.getDay()+wOff*7);ws.setHours(0,0,0,0);
+  const we=new Date(ws);we.setDate(we.getDate()+6);
+  document.getElementById('wt').textContent=ws.toLocaleDateString([],{month:'short',day:'numeric'})+' – '+we.toLocaleDateString([],{month:'short',day:'numeric'});
   const today=dk(en());
-  let h='';['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d=>{h+=`<div class="ch">${d}</div>`});
+  let h='';['S','M','T','W','T','F','S'].forEach(d=>{h+=`<div class="ch">${d}</div>`});
   for(let i=0;i<7;i++){
     const d=new Date(ws);d.setDate(d.getDate()+i);
     const k=dk(d),iT=k===today,iF=d>en();
     const sm=JSON.parse(localStorage.getItem('sum-'+k)||'{}');
-    h+=`<div class="cy ${iT?'today':''} ${iF?'future':''}"><div class="cn">${d.getDate()}</div><div class="co">${sm.oz?sm.oz.toFixed(0)+'oz':'-'}</div><div class="cp">${sm.naps?sm.naps+' naps':''}</div></div>`;
+    h+=`<div class="cy ${iT?'today':''} ${iF?'future':''}"><div class="cn">${d.getDate()}</div><div class="co">${sm.oz?sm.oz.toFixed(0)+'oz':''}</div><div class="cp">${sm.naps?sm.naps+'n':''}</div></div>`;
   }
   document.getElementById('wg').innerHTML=h;
 }
@@ -441,39 +495,32 @@ function rH(){
   const n=en();let h='';
   for(let i=0;i<14;i++){
     const d=new Date(n);d.setDate(d.getDate()-i);
-    const k=dk(d),sm=JSON.parse(localStorage.getItem('sum-'+k)||'{}');
-    const fd=JSON.parse(localStorage.getItem('fd-'+k)||'[]');
-    const dayLabel=i===0?'Today':i===1?'Yesterday':d.toLocaleDateString([],{weekday:'short',month:'short',day:'numeric'});
-    if(!sm.ts&&fd.length===0)continue;
-    let feedList=fd.map(f=>f.oz+'oz at '+f.time).join(', ')||'No feeds logged';
-    h+=`<div class="hist-card"><div class="hd">${dayLabel}</div><div class="hv">Total: <span>${sm.oz?sm.oz.toFixed(1)+' oz':'—'}</span> · Feeds: <span>${sm.feeds||0}</span> · Naps checked: <span>${sm.naps||0}</span></div><div class="hv" style="font-size:11px;margin-top:2px">${feedList}</div></div>`;
+    const k=dk(d),sm=JSON.parse(localStorage.getItem('sum-'+k)||'{}'),fd=JSON.parse(localStorage.getItem('fd-'+k)||'[]');
+    const lbl=i===0?'Today':i===1?'Yesterday':d.toLocaleDateString([],{weekday:'short',month:'short',day:'numeric'});
+    if(!sm.ts&&!fd.length)continue;
+    const fl=fd.map(f=>f.oz+'oz@'+f.time).join(' · ')||'—';
+    h+=`<div class="hc"><div class="hd">${lbl}</div><div class="hv">Total: <span>${sm.oz?sm.oz.toFixed(1)+'oz':'—'}</span> · Feeds: <span>${sm.feeds||0}</span> · Naps: <span>${sm.naps||0}</span></div><div class="hv" style="font-size:11px;margin-top:4px;color:var(--text3)">${fl}</div></div>`;
   }
-  if(!h)h='<div class="hist-card"><div class="hd">No history yet</div><div class="hv">Start logging feeds and checking off schedule items to build history.</div></div>';
-  document.getElementById('hist-list').innerHTML=h;
+  if(!h)h='<div class="hc"><div class="hd">No history yet</div><div class="hv">Log feeds and check off schedule items to build history.</div></div>';
+  document.getElementById('hl').innerHTML=h;
 }
 
 // Alerts
-function savAP(){localStorage.setItem('amin',document.getElementById('amin').value)}
-function ldAP(){const v=localStorage.getItem('amin');if(v!==null)document.getElementById('amin').value=v}
 function chkA(){
-  const mins=parseInt(document.getElementById('amin').value)||0;
-  if(!mins)return;
-  const n=en(),nm=n.getHours()*60+n.getMinutes();
-  const all=[...gDS(),...NIGHT_SCHED];
+  const mins=alertMins[alertIdx];if(!mins)return;
+  const n=en(),nm=n.getHours()*60+n.getMinutes(),all=[...gD(),...NS];
   all.forEach((s,i)=>{
-    const sm=tm(s.h,s.m),diff=sm-nm;
-    const ak=dk(n)+'-'+i;
+    const sm=s.h*60+s.m,diff=sm-nm,ak=dk(n)+'-'+i;
     if(diff>0&&diff<=mins&&!alerted.has(ak)){
       alerted.add(ak);
-      if('Notification'in window&&Notification.permission==='granted'){
-        new Notification('Baby Schedule ⏰',{body:s.i+' '+s.l+' in '+diff+' min',tag:'b-'+i});
-      }
+      if('Notification'in window&&Notification.permission==='granted')
+        new Notification('BabyTrack ⏰',{body:s.i+' '+s.l+' in '+diff+' min',tag:'b'+i});
     }
   });
 }
 
 if('Notification'in window&&Notification.permission==='default')Notification.requestPermission();
-ldAP();calcAge();renderNow();renderSched();rFd();savSum();
+ldA();calcAge();renderNow();renderSched();rFd();savS();
 setInterval(()=>{calcAge();renderNow();renderSched();chkA()},15000);chkA();
 </script>
 </body>
