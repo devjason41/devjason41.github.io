@@ -1977,8 +1977,12 @@
       panel.classList.toggle("is-active", panel.id === "panel-" + tabName);
     });
 
+    // Scroll to top of content when switching tabs
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
     if (tabName === "week") renderWeek();
     if (tabName === "history") renderHistory();
+    if (tabName === "feed") renderFeedPanel();
   }
 
   function shiftDate(date, days) {
