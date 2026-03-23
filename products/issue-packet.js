@@ -5,14 +5,14 @@ const generateBtn2 = document.getElementById("generateBtn");
 const downloadBtn2 = document.getElementById("downloadBtn");
 const output2 = document.getElementById("output");
 
-let lastPacket = "";
+const BUY_URL = "https://buy.polar.sh/polar_cl_xCoPecUDtNvZIgx8pwhMiztgwoPJ4eSzZbToR2l27Ce";
 
 function hasSignal(text, patterns) {
   const lowered = text.toLowerCase();
   return patterns.some((pattern) => lowered.includes(pattern));
 }
 
-function makePacket(title, repoUrl, body) {
+function makePreview(title, repoUrl, body) {
   const lowered = body.toLowerCase();
   const hasSteps = hasSignal(lowered, ["steps to reproduce", "reproduce", "1.", "2.", "3.", "step "]);
   const hasExpected = hasSignal(lowered, ["expected", "should"]);
@@ -40,7 +40,7 @@ function makePacket(title, repoUrl, body) {
     "- Decide whether the issue is valid, stale, underspecified, or blocked on missing info.",
   ];
 
-  return `# Automated Issue Reproduction Packet
+  return `# Automated Issue Packet Preview
 
 ## Input
 - Title: ${title}
@@ -57,22 +57,12 @@ function makePacket(title, repoUrl, body) {
 ## Ambiguity Flags
 ${ambiguityFlags.join("\n")}
 
-## Standardized Reproduction Checklist
-${checklist.join("\n")}
-
-## Generated Fix-Plan Structure
-- Validate whether the issue is reproducible.
-- Identify the narrowest failing subsystem.
-- Add or update a regression test if the issue is confirmed.
-- Patch the smallest likely fault boundary first.
-- Re-run the reproduction checklist after the patch.
-
-## Raw Issue Text
-${body}
+## Preview Checklist
+${checklist.slice(0, 3).join("\n")}
 
 ## Notes
-- This is a generated triage packet.
-- It is not a manual debugging or implementation engagement.
+- This preview is intentionally abbreviated.
+- The paid product includes the full fixed-format packet and export flow.
 `;
 }
 
@@ -83,24 +73,12 @@ generateBtn2.addEventListener("click", () => {
 
   if (!title || !body) {
     output2.textContent = "Provide an issue title and issue body.";
-    downloadBtn2.disabled = true;
     return;
   }
 
-  lastPacket = makePacket(title, repoUrl, body);
-  output2.textContent = lastPacket;
-  downloadBtn2.disabled = false;
+  output2.textContent = makePreview(title, repoUrl, body);
 });
 
 downloadBtn2.addEventListener("click", () => {
-  if (!lastPacket) return;
-  const blob = new Blob([lastPacket], { type: "text/markdown;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "issue-reproduction-packet.md";
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  URL.revokeObjectURL(url);
+  window.open(BUY_URL, "_blank", "noopener");
 });

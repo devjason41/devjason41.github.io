@@ -3,7 +3,7 @@ const generateBtn = document.getElementById("generateBtn");
 const downloadBtn = document.getElementById("downloadBtn");
 const output = document.getElementById("output");
 
-let lastReport = "";
+const BUY_URL = "https://buy.polar.sh/polar_cl_ygmgGCzRGUflehPPW9HEx9YjfYwYRLTvaAiB81gWYN2";
 
 function parseRepoUrl(url) {
   try {
@@ -44,7 +44,7 @@ async function fetchJson(url) {
   return response.json();
 }
 
-async function buildReport(owner, repo) {
+async function buildPreview(owner, repo) {
   const repoMeta = await fetchJson(`https://api.github.com/repos/${owner}/${repo}`);
   const languages = await fetchJson(`https://api.github.com/repos/${owner}/${repo}/languages`);
   const tree = await fetchJson(`https://api.github.com/repos/${owner}/${repo}/git/trees/${repoMeta.default_branch}?recursive=1`);
@@ -64,7 +64,6 @@ async function buildReport(owner, repo) {
     fileCount: paths.length,
   };
 
-  const checklist = makeChecklist(signals);
   const languageLine = languageNames.length ? languageNames.join(", ") : "unknown";
   const riskBand =
     signals.sensitivePathCount >= 10 || signals.fileCount > 1500
@@ -73,7 +72,12 @@ async function buildReport(owner, repo) {
         ? "moderate"
         : "baseline";
 
-  return `# Automated Repo Risk Report
+  const previewChecklist = makeChecklist(signals)
+    .split("\n")
+    .slice(0, 2)
+    .join("\n");
+
+  return `# Automated Repo Risk Preview
 
 ## Input
 - Repository: https://github.com/${owner}/${repo}
@@ -95,17 +99,12 @@ async function buildReport(owner, repo) {
 - Dependency lockfile signal: ${signals.hasLockfile ? "present" : "not clearly present"}
 - Containerization signal: ${signals.hasDocker ? "present" : "not clearly present"}
 
-## High-Priority Review Areas
-- Sensitive logic paths: ${signals.sensitivePathCount > 0 ? "review auth/payment/wallet/bridge/proof/admin related files first" : "no obvious sensitive-path keywords detected from filenames"}
-- Runtime boundaries: ${signals.languageCount > 1 ? "multiple languages/runtimes detected; review handoff points and deployment boundaries" : "single primary runtime detected"}
-- Operational maturity: ${signals.hasReadme && signals.hasCi ? "basic hygiene signals present" : "basic hygiene signals incomplete"}
-
-## Standard Remediation Checklist
-${checklist}
+## Preview Next Steps
+${previewChecklist}
 
 ## Notes
-- This is a generated first-pass report from public repository metadata and tree inspection.
-- It is not a manual security audit or custom engineering engagement.
+- This preview is intentionally abbreviated.
+- The paid product includes the fixed-format markdown report and export flow.
 `;
 }
 
@@ -113,32 +112,18 @@ generateBtn.addEventListener("click", async () => {
   const parsed = parseRepoUrl(repoUrlInput.value.trim());
   if (!parsed) {
     output.textContent = "Enter a valid public GitHub repo URL.";
-    downloadBtn.disabled = true;
     return;
   }
 
-  output.textContent = "Generating report...";
-  downloadBtn.disabled = true;
+  output.textContent = "Generating preview...";
 
   try {
-    lastReport = await buildReport(parsed.owner, parsed.repo);
-    output.textContent = lastReport;
-    downloadBtn.disabled = false;
+    output.textContent = await buildPreview(parsed.owner, parsed.repo);
   } catch (error) {
-    output.textContent = `Failed to generate report.\n\n${error.message}`;
-    downloadBtn.disabled = true;
+    output.textContent = `Failed to generate preview.\n\n${error.message}`;
   }
 });
 
 downloadBtn.addEventListener("click", () => {
-  if (!lastReport) return;
-  const blob = new Blob([lastReport], { type: "text/markdown;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "repo-risk-report.md";
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  URL.revokeObjectURL(url);
+  window.open(BUY_URL, "_blank", "noopener");
 });
