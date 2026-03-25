@@ -1226,9 +1226,9 @@
 
     <section class="control-grid" aria-label="Controls">
       <button class="micro-card" id="hecticToggle" type="button">
-        <span class="micro-label">Hectic Day</span>
+        <span class="micro-label">Emergency Flex</span>
         <span class="micro-value" id="hecticValue">Off</span>
-        <span class="micro-note" id="hecticNote">Use the standard 8-16 week rhythm.</span>
+        <span class="micro-note" id="hecticNote">Use the standard 8-16 week rhythm until you switch this on.</span>
       </button>
 
       <button class="micro-card alert-card" id="alertToggle" type="button">
@@ -1376,6 +1376,14 @@
         </div>
 
         <div class="guide-card">
+          <h3>🍼 Under vs over 3 months</h3>
+          <ul>
+            <li><strong>Under 3 months:</strong> expect more true night feeds and keep them calm, dark, and brief.</li>
+            <li><strong>Over 3 months:</strong> pause first, try a quick settle, then feed only if baby is clearly awake and hungry.</li>
+          </ul>
+        </div>
+
+        <div class="guide-card">
           <h3>🛌 Wake protocol</h3>
           <div class="timeline-list">
             <div class="step-item">
@@ -1431,7 +1439,7 @@
       <section class="tab-panel" id="panel-care">
         <div class="section-copy">
           <div class="section-title">Care</div>
-          <div class="section-note">Diaper timing, putting baby down, after-feeding rules, and the sleep-technique reminders that matter every day.</div>
+          <div class="section-note">Diaper timing, crazy-day reset tips, nap setup, and the sleep-technique reminders that matter every day.</div>
         </div>
 
         <div class="guide-card">
@@ -1456,6 +1464,26 @@
               <div class="tracker-meta"><strong>Wake time, then nap.</strong> Keep the order predictable.</div>
             </div>
           </div>
+        </div>
+
+        <div class="guide-card">
+          <h3>🌀 Crazy day reset</h3>
+          <ul>
+            <li><strong>Feed at 7:00 AM.</strong> Use the first bottle as the reset anchor.</li>
+            <li><strong>Cap naps at 2 hours.</strong> Long day sleep steals from the night.</li>
+            <li><strong>Supper at 4:00 PM.</strong> Protect the evening feed and bedtime rhythm.</li>
+            <li><strong>Get back to normal by bedtime.</strong> Use the regular calm night routine.</li>
+          </ul>
+        </div>
+
+        <div class="guide-card">
+          <h3>🌤️ Nap setup</h3>
+          <ul>
+            <li><strong>Crib when possible.</strong> Let the sleep space do the work.</li>
+            <li><strong>Swaddled if still appropriate.</strong> Keep the setup consistent until rolling starts.</li>
+            <li><strong>White noise on.</strong> Use the same sound cue every nap.</li>
+            <li><strong>Allow some daylight.</strong> Day naps can stay brighter than night sleep.</li>
+          </ul>
         </div>
 
         <div class="guide-card">
@@ -1600,13 +1628,13 @@
   const DAY_SCHEDULE = [
     { id: "d0", displayTime: "7:00 AM", minutes: 7 * 60, label: "Wake + Feed", detail: "4-6 oz · diaper change first · lights on", emoji: "🍼", kind: "feed", tone: "day", alert: true },
     { id: "d0p", displayTime: "7:30 AM", minutes: 7 * 60 + 30, label: "Play / Wake Window", detail: "Tummy time · play mat · talking · sensory toys · 1-1.5 hr wake window", emoji: "🎯", kind: "play", tone: "day", alert: false },
-    { id: "d1", displayTime: "8:30 AM", minutes: 8 * 60 + 30, label: "Nap 1", detail: "Swaddle · dark room · white noise · about 1.5 hours", emoji: "😴", kind: "nap", tone: "day", alert: true },
+    { id: "d1", displayTime: "8:30 AM", minutes: 8 * 60 + 30, label: "Nap 1", detail: "Crib · swaddle · white noise · some daylight · about 1.5 hours", emoji: "😴", kind: "nap", tone: "day", alert: true },
     { id: "d2", displayTime: "10:00 AM", minutes: 10 * 60, label: "Wake + Feed", detail: "4-6 oz · diaper change", emoji: "🍼", kind: "feed", tone: "day", alert: true },
     { id: "d2p", displayTime: "10:30 AM", minutes: 10 * 60 + 30, label: "Play / Wake Window", detail: "Tummy time · read a book · mirror play · high-contrast cards", emoji: "🎯", kind: "play", tone: "day", alert: false },
-    { id: "d3", displayTime: "11:30 AM", minutes: 11 * 60 + 30, label: "Nap 2", detail: "Dark room · white noise · about 1.5 hours", emoji: "😴", kind: "nap", tone: "day", alert: true },
+    { id: "d3", displayTime: "11:30 AM", minutes: 11 * 60 + 30, label: "Nap 2", detail: "Crib · swaddle · white noise · some daylight · about 1.5 hours", emoji: "😴", kind: "nap", tone: "day", alert: true },
     { id: "d4", displayTime: "1:00 PM", minutes: 13 * 60, label: "Wake + Feed", detail: "4-6 oz · diaper change first", emoji: "🍼", kind: "feed", tone: "day", alert: true },
     { id: "d4p", displayTime: "1:30 PM", minutes: 13 * 60 + 30, label: "Play / Wake Window", detail: "Floor time · kick and play · gentle bouncing · songs", emoji: "🎯", kind: "play", tone: "day", alert: false },
-    { id: "d5", displayTime: "2:30 PM", minutes: 14 * 60 + 30, label: "Nap 3", detail: "Dark room · swaddle · about 1.5 hours", emoji: "😴", kind: "nap", tone: "day", alert: true },
+    { id: "d5", displayTime: "2:30 PM", minutes: 14 * 60 + 30, label: "Nap 3", detail: "Crib · swaddle · white noise · some daylight · about 1.5 hours", emoji: "😴", kind: "nap", tone: "day", alert: true },
     { id: "d6", displayTime: "4:00 PM", minutes: 16 * 60, label: "Wake + Feed", detail: "4-6 oz · upright hold after the bottle", emoji: "🍼", kind: "feed", tone: "day", alert: true },
     { id: "d6p", displayTime: "4:30 PM", minutes: 16 * 60 + 30, label: "Play / Wake Window", detail: "Gentle activity · don't overstimulate before catnap", emoji: "🎯", kind: "play", tone: "day", alert: false },
     { id: "d7", displayTime: "5:15 PM", minutes: 17 * 60 + 15, label: "Catnap", detail: "30-45 minutes · end by 5:45 PM", emoji: "🌤️", kind: "nap", tone: "day", alert: true }
@@ -1615,13 +1643,13 @@
   const HECTIC_SCHEDULE = [
     { id: "d0", displayTime: "7:00 AM", minutes: 7 * 60, label: "Wake + Feed", detail: "4-6 oz · diaper first · anchor the day", emoji: "🍼", kind: "feed", tone: "day", alert: true },
     { id: "d0p", displayTime: "7:30 AM", minutes: 7 * 60 + 30, label: "Play (flex)", detail: "Whatever works — floor, bouncer, carrier, errands", emoji: "🎯", kind: "play", tone: "day", alert: false },
-    { id: "d1", displayTime: "8:45 AM", minutes: 8 * 60 + 45, label: "Nap 1 (flex)", detail: "Carrier, crib, or stroller. A shorter nap still counts.", emoji: "😴", kind: "nap", tone: "day", alert: true },
+    { id: "d1", displayTime: "8:45 AM", minutes: 8 * 60 + 45, label: "Nap 1 (crazy day)", detail: "Crib, carrier, or stroller · cap it at 2 hours", emoji: "😴", kind: "nap", tone: "day", alert: true },
     { id: "d2", displayTime: "10:30 AM", minutes: 10 * 60 + 30, label: "Feed", detail: "4-6 oz wherever you are", emoji: "🍼", kind: "feed", tone: "day", alert: true },
-    { id: "d3", displayTime: "12:15 PM", minutes: 12 * 60 + 15, label: "Nap 2 (flex)", detail: "Aim for rest, not perfection. Car seat naps count today.", emoji: "😴", kind: "nap", tone: "day", alert: true },
+    { id: "d3", displayTime: "12:15 PM", minutes: 12 * 60 + 15, label: "Nap 2 (crazy day)", detail: "Any real nap counts today · still cap it at 2 hours", emoji: "😴", kind: "nap", tone: "day", alert: true },
     { id: "d4", displayTime: "1:45 PM", minutes: 13 * 60 + 45, label: "Feed", detail: "4-6 oz · stay steady even if naps were messy", emoji: "🍼", kind: "feed", tone: "day", alert: true },
-    { id: "d5", displayTime: "3:15 PM", minutes: 15 * 60 + 15, label: "Nap 3 (flex)", detail: "Short reset nap is enough on a hectic day", emoji: "😴", kind: "nap", tone: "day", alert: true },
-    { id: "d6", displayTime: "4:45 PM", minutes: 16 * 60 + 45, label: "Feed", detail: "4-6 oz · protect the evening", emoji: "🍼", kind: "feed", tone: "day", alert: true },
-    { id: "d7", displayTime: "5:30 PM", minutes: 17 * 60 + 30, label: "Catnap (optional)", detail: "Quick reset only if the evening needs it", emoji: "🌤️", kind: "nap", tone: "day", alert: true }
+    { id: "d5", displayTime: "3:15 PM", minutes: 15 * 60 + 15, label: "Nap 3 (crazy day)", detail: "Short reset nap only · still cap total sleep at 2 hours", emoji: "😴", kind: "nap", tone: "day", alert: true },
+    { id: "d6", displayTime: "4:00 PM", minutes: 16 * 60, label: "Supper feed", detail: "4-6 oz · protect the evening and bedtime rhythm", emoji: "🍼", kind: "feed", tone: "day", alert: true },
+    { id: "d7", displayTime: "5:15 PM", minutes: 17 * 60 + 15, label: "Catnap (optional)", detail: "Quick reset only if the evening needs it", emoji: "🌤️", kind: "nap", tone: "day", alert: true }
   ];
 
   const NIGHT_SCHEDULE = [
@@ -1638,9 +1666,11 @@
     activeTab: localStorage.getItem(STORAGE.activeTab) || "today",
     weekOffset: 0,
     alertLead: getStoredAlertLead(),
-    hecticMode: localStorage.getItem(STORAGE.hecticMode) === "1",
+    hecticMode: false,
     alerted: new Set()
   };
+
+  localStorage.removeItem(STORAGE.hecticMode);
 
   const VALID_TABS = new Set(["today", "feed", "night", "care", "week", "history"]);
   if (!VALID_TABS.has(state.activeTab)) {
@@ -1862,8 +1892,8 @@
     els.hecticToggle.classList.toggle("is-toggle-on", state.hecticMode);
     els.hecticValue.textContent = state.hecticMode ? "On" : "Off";
     els.hecticNote.textContent = state.hecticMode
-      ? "Flexible naps and feeds for a messy day."
-      : "Use the standard 8-16 week rhythm.";
+      ? "Emergency flex is live: 7 AM feed, naps capped at 2 hours, supper at 4 PM."
+      : "Use the standard 8-16 week rhythm until you switch this on.";
     els.alertValue.textContent = state.alertLead ? state.alertLead + " min" : "Off";
 
     const snapshot = getDailySnapshot(nowInTimeZone());
@@ -2175,7 +2205,6 @@
 
   function toggleHecticMode() {
     state.hecticMode = !state.hecticMode;
-    localStorage.setItem(STORAGE.hecticMode, state.hecticMode ? "1" : "0");
     syncDailySummary(nowInTimeZone());
     renderAll();
   }
