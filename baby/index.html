@@ -1267,7 +1267,7 @@
 
         <div class="schedule-stack" id="daySchedule"></div>
 
-        <div class="night-divider">🌙 Night window · 6:15 PM through 7:15 AM</div>
+        <div class="night-divider">🌙 Night window · 6:30 PM through 7:00 AM</div>
 
         <div class="schedule-stack" id="nightSchedule"></div>
       </section>
@@ -1278,11 +1278,11 @@
             <div class="tracker-title">
               <div class="eyebrow">Feeding</div>
               <h2>🍼 Daily Feeding Tracker</h2>
-              <div class="tracker-meta">Quick buttons for 3-6 oz, custom logging, per-entry delete, and an undo for the last bottle.</div>
+              <div class="tracker-meta">Quick buttons for 4-7 oz, custom logging, per-entry delete, and an undo for the last bottle.</div>
             </div>
             <div class="oz-total">
               <span class="amount" id="feedTotalAmount">0 oz</span>
-              <span class="goal">Goal: 24-32 oz</span>
+              <span class="goal">Goal: 25-35 oz</span>
             </div>
           </div>
 
@@ -1296,10 +1296,10 @@
           </div>
 
           <div class="action-grid">
-            <button class="action-button primary" type="button" data-oz="3">+3 oz</button>
             <button class="action-button primary" type="button" data-oz="4">+4 oz</button>
             <button class="action-button primary" type="button" data-oz="5">+5 oz</button>
             <button class="action-button primary" type="button" data-oz="6">+6 oz</button>
+            <button class="action-button primary" type="button" data-oz="7">+7 oz</button>
             <button class="action-button secondary" type="button" id="customFeedButton">Custom</button>
             <button class="action-button secondary" type="button" id="undoFeedButton">Undo last</button>
           </div>
@@ -1310,9 +1310,9 @@
         <div class="guide-card">
           <h3>🧭 Amounts for 8-16 weeks</h3>
           <ul>
-            <li><strong>Day feeds:</strong> 4-6 oz every ~3 hours, usually 5 daytime feeds.</li>
-            <li><strong>Night feed:</strong> 4-5 oz only if baby truly wakes and needs it.</li>
-            <li><strong>Daily target:</strong> about 24-32 oz total. Follow cues instead of forcing the bottle.</li>
+            <li><strong>Day feeds:</strong> 5-7 oz every ~3 hours, usually 5 daytime feeds.</li>
+            <li><strong>Keep feeds efficient:</strong> aim to finish the bottle in under 20 minutes.</li>
+            <li><strong>Daily target:</strong> about 25-35 oz total. Follow cues instead of forcing the bottle.</li>
           </ul>
         </div>
 
@@ -1338,23 +1338,23 @@
       <section class="tab-panel night-panel" id="panel-night">
         <div class="section-copy">
           <div class="section-title">Night</div>
-          <div class="section-note">The full 7 PM to 7 AM guide: timeline, wake protocol, night feed rules, and fast troubleshooting.</div>
+          <div class="section-note">The full 6:30 PM to 7:00 AM guide: bedtime routine, wake protocol, night feed rules, and fast troubleshooting.</div>
         </div>
 
         <div class="guide-card">
           <h3>🌙 Overnight timeline</h3>
           <div class="timeline-list">
             <div class="timeline-item">
-              <div class="timeline-time">6:15 PM</div>
+              <div class="timeline-time">6:30 PM</div>
               <div class="tracker-meta"><strong>Bath + bedtime routine starts</strong><br>Bath, lotion, pajamas, swaddle, and calm transition into the night.</div>
             </div>
             <div class="timeline-item">
-              <div class="timeline-time">6:45 PM</div>
-              <div class="tracker-meta"><strong>Final bottle</strong><br>Offer 4-6 oz in a dim, quiet room. Keep the energy soft.</div>
+              <div class="timeline-time">7:00 PM</div>
+              <div class="tracker-meta"><strong>Bedtime bottle</strong><br>Offer 5-7 oz in a dim, quiet room and aim to finish in under 20 minutes.</div>
             </div>
             <div class="timeline-item">
-              <div class="timeline-time">7:00 PM</div>
-              <div class="tracker-meta"><strong>In crib</strong><br>Drowsy but awake. Sound machine on. Lights off. Let baby finish falling asleep in the crib.</div>
+              <div class="timeline-time">7:30 PM</div>
+              <div class="tracker-meta"><strong>In crib</strong><br>Crib, white noise, dark room, and swaddled if still under 3 months and not rolling.</div>
             </div>
             <div class="timeline-item">
               <div class="timeline-time">10:00-10:30 PM</div>
@@ -1612,8 +1612,8 @@
 <script>
   const TIME_ZONE = "America/New_York";
   const BIRTH_DATE = new Date("2026-01-20T00:00:00-05:00");
-  const DAY_PHASE_START = 7 * 60 + 15;
-  const NIGHT_PHASE_START = 18 * 60 + 15;
+  const DAY_PHASE_START = 7 * 60;
+  const NIGHT_PHASE_START = 18 * 60 + 30;
   const ALERT_OPTIONS = [0, 5, 10, 15, 30];
 
   const STORAGE = {
@@ -1626,36 +1626,36 @@
   };
 
   const DAY_SCHEDULE = [
-    { id: "d0", displayTime: "7:00 AM", minutes: 7 * 60, label: "Wake + Feed", detail: "4-6 oz · diaper change first · lights on", emoji: "🍼", kind: "feed", tone: "day", alert: true },
+    { id: "d0", displayTime: "7:00 AM", minutes: 7 * 60, label: "Wake + Feed", detail: "5-7 oz · diaper change first · lights on", emoji: "🍼", kind: "feed", tone: "day", alert: true },
     { id: "d0p", displayTime: "7:30 AM", minutes: 7 * 60 + 30, label: "Play / Wake Window", detail: "Tummy time · play mat · talking · sensory toys · 1-1.5 hr wake window", emoji: "🎯", kind: "play", tone: "day", alert: false },
     { id: "d1", displayTime: "8:30 AM", minutes: 8 * 60 + 30, label: "Nap 1", detail: "Crib · swaddle · white noise · some daylight · about 1.5 hours", emoji: "😴", kind: "nap", tone: "day", alert: true },
-    { id: "d2", displayTime: "10:00 AM", minutes: 10 * 60, label: "Wake + Feed", detail: "4-6 oz · diaper change", emoji: "🍼", kind: "feed", tone: "day", alert: true },
+    { id: "d2", displayTime: "10:00 AM", minutes: 10 * 60, label: "Wake + Feed", detail: "5-7 oz · diaper change", emoji: "🍼", kind: "feed", tone: "day", alert: true },
     { id: "d2p", displayTime: "10:30 AM", minutes: 10 * 60 + 30, label: "Play / Wake Window", detail: "Tummy time · read a book · mirror play · high-contrast cards", emoji: "🎯", kind: "play", tone: "day", alert: false },
     { id: "d3", displayTime: "11:30 AM", minutes: 11 * 60 + 30, label: "Nap 2", detail: "Crib · swaddle · white noise · some daylight · about 1.5 hours", emoji: "😴", kind: "nap", tone: "day", alert: true },
-    { id: "d4", displayTime: "1:00 PM", minutes: 13 * 60, label: "Wake + Feed", detail: "4-6 oz · diaper change first", emoji: "🍼", kind: "feed", tone: "day", alert: true },
+    { id: "d4", displayTime: "1:00 PM", minutes: 13 * 60, label: "Wake + Feed", detail: "5-7 oz · diaper change first", emoji: "🍼", kind: "feed", tone: "day", alert: true },
     { id: "d4p", displayTime: "1:30 PM", minutes: 13 * 60 + 30, label: "Play / Wake Window", detail: "Floor time · kick and play · gentle bouncing · songs", emoji: "🎯", kind: "play", tone: "day", alert: false },
     { id: "d5", displayTime: "2:30 PM", minutes: 14 * 60 + 30, label: "Nap 3", detail: "Crib · swaddle · white noise · some daylight · about 1.5 hours", emoji: "😴", kind: "nap", tone: "day", alert: true },
-    { id: "d6", displayTime: "4:00 PM", minutes: 16 * 60, label: "Wake + Feed", detail: "4-6 oz · upright hold after the bottle", emoji: "🍼", kind: "feed", tone: "day", alert: true },
+    { id: "d6", displayTime: "4:00 PM", minutes: 16 * 60, label: "Supper feed", detail: "5-7 oz · upright hold after the bottle", emoji: "🍼", kind: "feed", tone: "day", alert: true },
     { id: "d6p", displayTime: "4:30 PM", minutes: 16 * 60 + 30, label: "Play / Wake Window", detail: "Gentle activity · don't overstimulate before catnap", emoji: "🎯", kind: "play", tone: "day", alert: false },
-    { id: "d7", displayTime: "5:15 PM", minutes: 17 * 60 + 15, label: "Catnap", detail: "30-45 minutes · end by 5:45 PM", emoji: "🌤️", kind: "nap", tone: "day", alert: true }
+    { id: "d7", displayTime: "5:30 PM", minutes: 17 * 60 + 30, label: "Catnap", detail: "About 30 minutes · wake by 6:00 PM", emoji: "🌤️", kind: "nap", tone: "day", alert: true }
   ];
 
   const HECTIC_SCHEDULE = [
-    { id: "d0", displayTime: "7:00 AM", minutes: 7 * 60, label: "Wake + Feed", detail: "4-6 oz · diaper first · anchor the day", emoji: "🍼", kind: "feed", tone: "day", alert: true },
+    { id: "d0", displayTime: "7:00 AM", minutes: 7 * 60, label: "Wake + Feed", detail: "5-7 oz · diaper first · anchor the day", emoji: "🍼", kind: "feed", tone: "day", alert: true },
     { id: "d0p", displayTime: "7:30 AM", minutes: 7 * 60 + 30, label: "Play (flex)", detail: "Whatever works — floor, bouncer, carrier, errands", emoji: "🎯", kind: "play", tone: "day", alert: false },
     { id: "d1", displayTime: "8:45 AM", minutes: 8 * 60 + 45, label: "Nap 1 (crazy day)", detail: "Crib, carrier, or stroller · cap it at 2 hours", emoji: "😴", kind: "nap", tone: "day", alert: true },
-    { id: "d2", displayTime: "10:30 AM", minutes: 10 * 60 + 30, label: "Feed", detail: "4-6 oz wherever you are", emoji: "🍼", kind: "feed", tone: "day", alert: true },
+    { id: "d2", displayTime: "10:30 AM", minutes: 10 * 60 + 30, label: "Feed", detail: "5-7 oz wherever you are", emoji: "🍼", kind: "feed", tone: "day", alert: true },
     { id: "d3", displayTime: "12:15 PM", minutes: 12 * 60 + 15, label: "Nap 2 (crazy day)", detail: "Any real nap counts today · still cap it at 2 hours", emoji: "😴", kind: "nap", tone: "day", alert: true },
-    { id: "d4", displayTime: "1:45 PM", minutes: 13 * 60 + 45, label: "Feed", detail: "4-6 oz · stay steady even if naps were messy", emoji: "🍼", kind: "feed", tone: "day", alert: true },
+    { id: "d4", displayTime: "1:45 PM", minutes: 13 * 60 + 45, label: "Feed", detail: "5-7 oz · stay steady even if naps were messy", emoji: "🍼", kind: "feed", tone: "day", alert: true },
     { id: "d5", displayTime: "3:15 PM", minutes: 15 * 60 + 15, label: "Nap 3 (crazy day)", detail: "Short reset nap only · still cap total sleep at 2 hours", emoji: "😴", kind: "nap", tone: "day", alert: true },
-    { id: "d6", displayTime: "4:00 PM", minutes: 16 * 60, label: "Supper feed", detail: "4-6 oz · protect the evening and bedtime rhythm", emoji: "🍼", kind: "feed", tone: "day", alert: true },
-    { id: "d7", displayTime: "5:15 PM", minutes: 17 * 60 + 15, label: "Catnap (optional)", detail: "Quick reset only if the evening needs it", emoji: "🌤️", kind: "nap", tone: "day", alert: true }
+    { id: "d6", displayTime: "4:00 PM", minutes: 16 * 60, label: "Supper feed", detail: "5-7 oz · protect the evening and bedtime rhythm", emoji: "🍼", kind: "feed", tone: "day", alert: true },
+    { id: "d7", displayTime: "5:30 PM", minutes: 17 * 60 + 30, label: "Catnap (optional)", detail: "Quick 30 minute reset only if the evening needs it", emoji: "🌤️", kind: "nap", tone: "day", alert: true }
   ];
 
   const NIGHT_SCHEDULE = [
-    { id: "n0", displayTime: "6:15 PM", minutes: 18 * 60 + 15, label: "Bath + bedtime routine", detail: "Bath, lotion, pajamas, swaddle, calm voices", emoji: "🛁", kind: "routine", tone: "night", alert: true },
-    { id: "n1", displayTime: "6:45 PM", minutes: 18 * 60 + 45, label: "Final bottle", detail: "4-6 oz · dim room · quiet and slow", emoji: "🍼", kind: "feed", tone: "night", alert: true },
-    { id: "n2", displayTime: "7:00 PM", minutes: 19 * 60, label: "In crib", detail: "Drowsy but awake · sound machine · lights off", emoji: "🌙", kind: "sleep", tone: "night", alert: true },
+    { id: "n0", displayTime: "6:30 PM", minutes: 18 * 60 + 30, label: "Bath + bedtime routine", detail: "Bath, lotion, pajamas, calm voices, and a smooth transition to bed", emoji: "🛁", kind: "routine", tone: "night", alert: true },
+    { id: "n1", displayTime: "7:00 PM", minutes: 19 * 60, label: "Bedtime bottle", detail: "5-7 oz · dim room · quiet and slow · under 20 minutes", emoji: "🍼", kind: "feed", tone: "night", alert: true },
+    { id: "n2", displayTime: "7:30 PM", minutes: 19 * 60 + 30, label: "In crib", detail: "Crib · white noise · dark room · swaddle if under 3 months and not rolling", emoji: "🌙", kind: "sleep", tone: "night", alert: true },
     { id: "n3", displayTime: "10:00-10:30 PM", minutes: 22 * 60, label: "Optional dream feed", detail: "3-4 oz · do not fully wake baby", emoji: "🌌", kind: "feed", tone: "night", alert: true },
     { id: "n4", displayTime: "Middle of night", minutes: 2 * 60, label: "If baby wakes", detail: "Wait 5 minutes, then 4-5 oz, dark, silent", emoji: "🌘", kind: "feed", tone: "night", alert: false },
     { id: "n5", displayTime: "5:00-6:30 AM", minutes: 5 * 60, label: "Early wake window", detail: "Not morning yet · keep dark · use pacifier", emoji: "🌫️", kind: "settle", tone: "night", alert: false },
