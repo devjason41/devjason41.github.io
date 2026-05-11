@@ -3,7 +3,7 @@ const generateBtn = document.getElementById("generateBtn");
 const downloadBtn = document.getElementById("downloadBtn");
 const output = document.getElementById("output");
 
-const BUY_URL = "https://buy.polar.sh/polar_cl_ygmgGCzRGUflehPPW9HEx9YjfYwYRLTvaAiB81gWYN2";
+const BUY_URL = "https://buy.polar.sh/polar_cl_DBYdMWFI3ZPCmsqvklGWuk0dqwzsOqajCow1w31ggEz";
 
 function parseRepoUrl(url) {
   try {
@@ -77,7 +77,7 @@ async function buildPreview(owner, repo) {
     .slice(0, 2)
     .join("\n");
 
-  return `# Automated Repo Risk Preview
+  return `# Code Risk Triage Preview
 
 ## Input
 - Repository: https://github.com/${owner}/${repo}
@@ -104,7 +104,7 @@ ${previewChecklist}
 
 ## Notes
 - This preview is intentionally abbreviated.
-- The paid product includes the fixed-format markdown report and export flow.
+- The paid product includes the focused triage memo and next-step checklist.
 `;
 }
 

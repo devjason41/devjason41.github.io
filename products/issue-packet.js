@@ -5,7 +5,7 @@ const generateBtn2 = document.getElementById("generateBtn");
 const downloadBtn2 = document.getElementById("downloadBtn");
 const output2 = document.getElementById("output");
 
-const BUY_URL = "https://buy.polar.sh/polar_cl_xCoPecUDtNvZIgx8pwhMiztgwoPJ4eSzZbToR2l27Ce";
+const BUY_URL = "https://buy.polar.sh/polar_cl_DBYdMWFI3ZPCmsqvklGWuk0dqwzsOqajCow1w31ggEz";
 
 function hasSignal(text, patterns) {
   const lowered = text.toLowerCase();
@@ -40,7 +40,7 @@ function makePreview(title, repoUrl, body) {
     "- Decide whether the issue is valid, stale, underspecified, or blocked on missing info.",
   ];
 
-  return `# Automated Issue Packet Preview
+  return `# Issue Repro + Fix Plan Preview
 
 ## Input
 - Title: ${title}
@@ -62,7 +62,7 @@ ${checklist.slice(0, 3).join("\n")}
 
 ## Notes
 - This preview is intentionally abbreviated.
-- The paid product includes the full fixed-format packet and export flow.
+- The paid product includes the full reproduction packet and concrete fix plan.
 `;
 }
 
