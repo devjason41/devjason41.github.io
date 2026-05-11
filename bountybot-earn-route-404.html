@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BountyBot earn route 404 report</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: #171717;
+        background: #f7f7f5;
+        line-height: 1.55;
+      }
+
+      main {
+        width: min(860px, calc(100% - 40px));
+        margin: 48px auto;
+        padding: 32px;
+        background: #fff;
+        border: 1px solid #deded8;
+        border-radius: 8px;
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: clamp(1.75rem, 4vw, 2.5rem);
+        line-height: 1.1;
+      }
+
+      h2 {
+        margin-top: 28px;
+        font-size: 1.1rem;
+      }
+
+      code,
+      pre {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      }
+
+      code {
+        background: #f0f0ec;
+        padding: 0.12rem 0.3rem;
+        border-radius: 4px;
+      }
+
+      pre {
+        overflow-x: auto;
+        padding: 16px;
+        background: #111;
+        color: #f6f6f2;
+        border-radius: 6px;
+      }
+
+      .meta {
+        margin: 0 0 24px;
+        color: #5a5a52;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>BountyBot earn route returns a bounty-specific 404</h1>
+      <p class="meta">Prepared for the public BountyBot bug bounty review.</p>
+
+      <h2>Summary</h2>
+      <p>
+        The direct URL <code>https://bountybot.com/earn</code> currently renders a
+        <code>404 Page Not Found</code> state with the technical detail
+        <code>Bounty not found</code>. The active public earning feed is available at
+        <code>https://bountybot.com/feed</code>.
+      </p>
+      <p>
+        If <code>/earn</code> is a legacy, bookmarked, or intuitive earning URL,
+        users should be redirected to <code>/feed</code> instead of landing on a
+        bounty-specific error page.
+      </p>
+
+      <h2>Reproduction steps</h2>
+      <ol>
+        <li>Open <code>https://bountybot.com/earn</code>.</li>
+        <li>Observe the visible <code>404 Page Not Found</code> state.</li>
+        <li>Note the technical detail shown on the page: <code>Bounty not found</code>.</li>
+        <li>Open <code>https://bountybot.com/feed</code>.</li>
+        <li>Observe that the public bounty feed loads normally.</li>
+      </ol>
+
+      <h2>Expected result</h2>
+      <p>
+        <code>/earn</code> should redirect to <code>/feed</code>, or the route
+        should show a route-aware page that directs earn-seeking users to the
+        public feed.
+      </p>
+
+      <h2>Impact</h2>
+      <p>
+        This is a low-to-medium conversion and user-experience issue. Users who
+        type or follow the intuitive <code>/earn</code> URL can hit a dead page
+        even though the earning feed exists.
+      </p>
+
+      <h2>Suggested fix</h2>
+      <p>
+        Add a permanent or temporary redirect from <code>/earn</code> to
+        <code>/feed</code>. If the route is intentionally unsupported, replace
+        the generic bounty lookup failure with a helpful destination link.
+      </p>
+
+      <h2>Verification notes</h2>
+      <pre><code>Observed:
+https://bountybot.com/earn -> visible 404 Page Not Found / Bounty not found
+https://bountybot.com/feed -> public bounty feed loads
+
+Current homepage navigation appears to point Earn to /feed, so this report is
+limited to the direct or legacy /earn URL behavior.</code></pre>
+    </main>
+  </body>
+</html>
