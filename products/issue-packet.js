@@ -5,7 +5,7 @@ const generateBtn2 = document.getElementById("generateBtn");
 const downloadBtn2 = document.getElementById("downloadBtn");
 const output2 = document.getElementById("output");
 
-const BUY_URL = "https://buy.polar.sh/polar_cl_DBYdMWFI3ZPCmsqvklGWuk0dqwzsOqajCow1w31ggEz";
+const BUY_URL = "https://buy.polar.sh/polar_cl_DBYdMWFI3ZPCmsqvklGWuk0dqwzsOqajCow1w31ggEz?utm_source=devjason41_github_pages&utm_medium=owned_site&utm_campaign=developer_deliverables&utm_content=issue_packet_preview_upgrade";
 
 function hasSignal(text, patterns) {
   const lowered = text.toLowerCase();

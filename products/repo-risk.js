@@ -3,7 +3,7 @@ const generateBtn = document.getElementById("generateBtn");
 const downloadBtn = document.getElementById("downloadBtn");
 const output = document.getElementById("output");
 
-const BUY_URL = "https://buy.polar.sh/polar_cl_DBYdMWFI3ZPCmsqvklGWuk0dqwzsOqajCow1w31ggEz";
+const BUY_URL = "https://buy.polar.sh/polar_cl_DBYdMWFI3ZPCmsqvklGWuk0dqwzsOqajCow1w31ggEz?utm_source=devjason41_github_pages&utm_medium=owned_site&utm_campaign=developer_deliverables&utm_content=repo_risk_preview_upgrade";
 
 function parseRepoUrl(url) {
   try {
